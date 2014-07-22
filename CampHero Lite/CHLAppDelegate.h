@@ -11,5 +11,8 @@
 @interface CHLAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, copy) NSArray *campsites;
+@property (nonatomic, copy) NSString *current_loc;
+@property(nonatomic, copy) NSString *restorationIdentifier;
 
 @end

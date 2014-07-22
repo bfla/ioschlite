@@ -19,6 +19,10 @@
 		8D522C2B197ED36F004DE753 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D522C13197ED36E004DE753 /* UIKit.framework */; };
 		8D522C33197ED36F004DE753 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D522C31197ED36F004DE753 /* InfoPlist.strings */; };
 		8D522C35197ED36F004DE753 /* CampHero_LiteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D522C34197ED36F004DE753 /* CampHero_LiteTests.m */; };
+		8D522C3F197ED3E9004DE753 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D522C3E197ED3E9004DE753 /* MapKit.framework */; };
+		8D522C41197ED3F2004DE753 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D522C40197ED3F2004DE753 /* CoreLocation.framework */; };
+		8D522C44197ED856004DE753 /* CHLUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D522C43197ED856004DE753 /* CHLUtilities.m */; };
+		8D522C4E197ED93C004DE753 /* CHLSearchStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D522C4D197ED93C004DE753 /* CHLSearchStore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +52,12 @@
 		8D522C30197ED36F004DE753 /* CampHero LiteTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CampHero LiteTests-Info.plist"; sourceTree = "<group>"; };
 		8D522C32197ED36F004DE753 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8D522C34197ED36F004DE753 /* CampHero_LiteTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CampHero_LiteTests.m; sourceTree = "<group>"; };
+		8D522C3E197ED3E9004DE753 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		8D522C40197ED3F2004DE753 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		8D522C42197ED856004DE753 /* CHLUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLUtilities.h; sourceTree = "<group>"; };
+		8D522C43197ED856004DE753 /* CHLUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLUtilities.m; sourceTree = "<group>"; };
+		8D522C4C197ED93C004DE753 /* CHLSearchStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLSearchStore.h; sourceTree = "<group>"; };
+		8D522C4D197ED93C004DE753 /* CHLSearchStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLSearchStore.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +65,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D522C41197ED3F2004DE753 /* CoreLocation.framework in Frameworks */,
+				8D522C3F197ED3E9004DE753 /* MapKit.framework in Frameworks */,
 				8D522C12197ED36E004DE753 /* CoreGraphics.framework in Frameworks */,
 				8D522C14197ED36E004DE753 /* UIKit.framework in Frameworks */,
 				8D522C10197ED36E004DE753 /* Foundation.framework in Frameworks */,
@@ -96,6 +108,8 @@
 		8D522C0E197ED36D004DE753 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8D522C40197ED3F2004DE753 /* CoreLocation.framework */,
+				8D522C3E197ED3E9004DE753 /* MapKit.framework */,
 				8D522C0F197ED36D004DE753 /* Foundation.framework */,
 				8D522C11197ED36E004DE753 /* CoreGraphics.framework */,
 				8D522C13197ED36E004DE753 /* UIKit.framework */,
@@ -109,6 +123,13 @@
 			children = (
 				8D522C1E197ED36E004DE753 /* CHLAppDelegate.h */,
 				8D522C1F197ED36E004DE753 /* CHLAppDelegate.m */,
+				8D522C42197ED856004DE753 /* CHLUtilities.h */,
+				8D522C43197ED856004DE753 /* CHLUtilities.m */,
+				8D522C4B197ED90D004DE753 /* Data */,
+				8D522C49197ED8F1004DE753 /* DetailScreen */,
+				8D522C47197ED8DA004DE753 /* ResultScreen */,
+				8D522C46197ED8CE004DE753 /* MapScreen */,
+				8D522C45197ED8C1004DE753 /* FilterScreen */,
 				8D522C21197ED36E004DE753 /* Images.xcassets */,
 				8D522C16197ED36E004DE753 /* Supporting Files */,
 			);
@@ -142,6 +163,43 @@
 				8D522C31197ED36F004DE753 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8D522C45197ED8C1004DE753 /* FilterScreen */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = FilterScreen;
+			sourceTree = "<group>";
+		};
+		8D522C46197ED8CE004DE753 /* MapScreen */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = MapScreen;
+			sourceTree = "<group>";
+		};
+		8D522C47197ED8DA004DE753 /* ResultScreen */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ResultScreen;
+			sourceTree = "<group>";
+		};
+		8D522C49197ED8F1004DE753 /* DetailScreen */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = DetailScreen;
+			sourceTree = "<group>";
+		};
+		8D522C4B197ED90D004DE753 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				8D522C4C197ED93C004DE753 /* CHLSearchStore.h */,
+				8D522C4D197ED93C004DE753 /* CHLSearchStore.m */,
+			);
+			name = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -241,7 +299,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D522C20197ED36E004DE753 /* CHLAppDelegate.m in Sources */,
+				8D522C4E197ED93C004DE753 /* CHLSearchStore.m in Sources */,
 				8D522C1C197ED36E004DE753 /* main.m in Sources */,
+				8D522C44197ED856004DE753 /* CHLUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,6 +421,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CampHero Lite/CampHero Lite-Prefix.pch";
 				INFOPLIST_FILE = "CampHero Lite/CampHero Lite-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -374,6 +435,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CampHero Lite/CampHero Lite-Prefix.pch";
 				INFOPLIST_FILE = "CampHero Lite/CampHero Lite-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
