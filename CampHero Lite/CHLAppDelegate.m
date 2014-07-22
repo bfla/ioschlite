@@ -9,9 +9,9 @@
 #import "CHLAppDelegate.h"
 #import "CHLSearchStore.h"
 
-#import "CHLFilterViewController.h"
+#import "CHLFilterViewControllerTableViewController.h"
 #import "CHLMapViewController.h"
-#import "CHLResultsViewController.h"
+#import "CHLResultsTableViewController.h"
 #import "CHLUtilities.h"
 
 @implementation CHLAppDelegate
@@ -25,7 +25,7 @@
     
     // Tab item views
     // Filters screen
-    CHLFilterViewController *filtersVC = [[CHLFilterViewController alloc] initWithStyle:UITableViewStylePlain];
+    CHLFilterViewControllerTableViewController *filtersVC = [[CHLFilterViewControllerTableViewController alloc] initWithStyle:UITableViewStylePlain];
     UINavigationController *filtersNVC = [[UINavigationController alloc] initWithRootViewController:filtersVC];
     filtersNVC.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemSearch tag:1];
     filtersNVC.tabBarItem.title = @"Controls";
@@ -40,7 +40,7 @@
     mapNVC.navigationBar.tintColor = [[UIColor alloc] initWithRed:1.0 green:0.45 blue:0.0 alpha:1.0];
     
     // Results screen
-    CHLResultsViewController *resultsVC = [[CHLResultsViewController alloc] initWithStyle:UITableViewStylePlain];
+    CHLResultsTableViewController *resultsVC = [[CHLResultsTableViewController alloc] initWithStyle:UITableViewStylePlain];
     resultsVC.campsites = [[NSMutableArray alloc] initWithArray:self.campsites];
     UINavigationController *resultsNVC = [[UINavigationController alloc] initWithRootViewController:resultsVC];
     resultsNVC.tabBarItem.title = @"Results";

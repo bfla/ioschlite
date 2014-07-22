@@ -6,15 +6,15 @@
 //  Copyright (c) 2014 Restless LLC. All rights reserved.
 //
 
-#import "CHLFilterViewController.h"
+#import "CHLFilterViewControllerTableViewController.h"
 #import "CHLLocationViewController.h"
 #import "CHLSearchStore.h"
 
-@interface CHLFilterViewController ()
+@interface CHLFilterViewControllerTableViewController ()
 
 @end
 
-@implementation CHLFilterViewController
+@implementation CHLFilterViewControllerTableViewController
 
 #pragma mark - VC Lifecycle
 - (id)initWithStyle:(UITableViewStyle)style

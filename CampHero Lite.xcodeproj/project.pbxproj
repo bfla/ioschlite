@@ -30,6 +30,12 @@
 		8D522C5B197EDD32004DE753 /* CHLFilterViewControllerTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D522C59197EDD32004DE753 /* CHLFilterViewControllerTableViewController.xib */; };
 		8D522C5F197EDDEA004DE753 /* CHLLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D522C5D197EDDEA004DE753 /* CHLLocationViewController.m */; };
 		8D522C60197EDDEA004DE753 /* CHLLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D522C5E197EDDEA004DE753 /* CHLLocationViewController.xib */; };
+		8D522C64197EDF28004DE753 /* CHLResultsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D522C62197EDF28004DE753 /* CHLResultsTableViewController.m */; };
+		8D522C65197EDF28004DE753 /* CHLResultsTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D522C63197EDF28004DE753 /* CHLResultsTableViewController.xib */; };
+		8D522C69197EDFEA004DE753 /* CHLCampsiteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D522C67197EDFEA004DE753 /* CHLCampsiteViewController.m */; };
+		8D522C6A197EDFEA004DE753 /* CHLCampsiteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D522C68197EDFEA004DE753 /* CHLCampsiteViewController.xib */; };
+		8D522C6E197EE43F004DE753 /* CHLDirectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D522C6C197EE43E004DE753 /* CHLDirectionsViewController.m */; };
+		8D522C6F197EE43F004DE753 /* CHLDirectionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D522C6D197EE43F004DE753 /* CHLDirectionsViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +82,15 @@
 		8D522C5C197EDDEA004DE753 /* CHLLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLLocationViewController.h; sourceTree = "<group>"; };
 		8D522C5D197EDDEA004DE753 /* CHLLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLLocationViewController.m; sourceTree = "<group>"; };
 		8D522C5E197EDDEA004DE753 /* CHLLocationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CHLLocationViewController.xib; sourceTree = "<group>"; };
+		8D522C61197EDF28004DE753 /* CHLResultsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLResultsTableViewController.h; sourceTree = "<group>"; };
+		8D522C62197EDF28004DE753 /* CHLResultsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLResultsTableViewController.m; sourceTree = "<group>"; };
+		8D522C63197EDF28004DE753 /* CHLResultsTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CHLResultsTableViewController.xib; sourceTree = "<group>"; };
+		8D522C66197EDFEA004DE753 /* CHLCampsiteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLCampsiteViewController.h; sourceTree = "<group>"; };
+		8D522C67197EDFEA004DE753 /* CHLCampsiteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLCampsiteViewController.m; sourceTree = "<group>"; };
+		8D522C68197EDFEA004DE753 /* CHLCampsiteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CHLCampsiteViewController.xib; sourceTree = "<group>"; };
+		8D522C6B197EE43E004DE753 /* CHLDirectionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLDirectionsViewController.h; sourceTree = "<group>"; };
+		8D522C6C197EE43E004DE753 /* CHLDirectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLDirectionsViewController.m; sourceTree = "<group>"; };
+		8D522C6D197EE43F004DE753 /* CHLDirectionsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CHLDirectionsViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,6 +226,9 @@
 		8D522C47197ED8DA004DE753 /* ResultScreen */ = {
 			isa = PBXGroup;
 			children = (
+				8D522C61197EDF28004DE753 /* CHLResultsTableViewController.h */,
+				8D522C62197EDF28004DE753 /* CHLResultsTableViewController.m */,
+				8D522C63197EDF28004DE753 /* CHLResultsTableViewController.xib */,
 			);
 			name = ResultScreen;
 			sourceTree = "<group>";
@@ -218,6 +236,12 @@
 		8D522C49197ED8F1004DE753 /* DetailScreen */ = {
 			isa = PBXGroup;
 			children = (
+				8D522C66197EDFEA004DE753 /* CHLCampsiteViewController.h */,
+				8D522C67197EDFEA004DE753 /* CHLCampsiteViewController.m */,
+				8D522C68197EDFEA004DE753 /* CHLCampsiteViewController.xib */,
+				8D522C6B197EE43E004DE753 /* CHLDirectionsViewController.h */,
+				8D522C6C197EE43E004DE753 /* CHLDirectionsViewController.m */,
+				8D522C6D197EE43F004DE753 /* CHLDirectionsViewController.xib */,
 			);
 			name = DetailScreen;
 			sourceTree = "<group>";
@@ -309,7 +333,10 @@
 			files = (
 				8D522C1A197ED36E004DE753 /* InfoPlist.strings in Resources */,
 				8D522C53197EDA7A004DE753 /* CHLMapViewController.xib in Resources */,
+				8D522C6F197EE43F004DE753 /* CHLDirectionsViewController.xib in Resources */,
+				8D522C65197EDF28004DE753 /* CHLResultsTableViewController.xib in Resources */,
 				8D522C5B197EDD32004DE753 /* CHLFilterViewControllerTableViewController.xib in Resources */,
+				8D522C6A197EDFEA004DE753 /* CHLCampsiteViewController.xib in Resources */,
 				8D522C22197ED36E004DE753 /* Images.xcassets in Resources */,
 				8D522C60197EDDEA004DE753 /* CHLLocationViewController.xib in Resources */,
 			);
@@ -331,6 +358,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D522C56197EDCBE004DE753 /* CHLMapMarker.m in Sources */,
+				8D522C6E197EE43F004DE753 /* CHLDirectionsViewController.m in Sources */,
+				8D522C64197EDF28004DE753 /* CHLResultsTableViewController.m in Sources */,
+				8D522C69197EDFEA004DE753 /* CHLCampsiteViewController.m in Sources */,
 				8D522C20197ED36E004DE753 /* CHLAppDelegate.m in Sources */,
 				8D522C5A197EDD32004DE753 /* CHLFilterViewControllerTableViewController.m in Sources */,
 				8D522C52197EDA7A004DE753 /* CHLMapViewController.m in Sources */,
