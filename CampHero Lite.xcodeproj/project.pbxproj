@@ -36,6 +36,7 @@
 		8D522C6A197EDFEA004DE753 /* CHLCampsiteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D522C68197EDFEA004DE753 /* CHLCampsiteViewController.xib */; };
 		8D522C6E197EE43F004DE753 /* CHLDirectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D522C6C197EE43E004DE753 /* CHLDirectionsViewController.m */; };
 		8D522C6F197EE43F004DE753 /* CHLDirectionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D522C6D197EE43F004DE753 /* CHLDirectionsViewController.xib */; };
+		8D522C72197EE76C004DE753 /* CHLCampsite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D522C71197EE76C004DE753 /* CHLCampsite.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +92,8 @@
 		8D522C6B197EE43E004DE753 /* CHLDirectionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLDirectionsViewController.h; sourceTree = "<group>"; };
 		8D522C6C197EE43E004DE753 /* CHLDirectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLDirectionsViewController.m; sourceTree = "<group>"; };
 		8D522C6D197EE43F004DE753 /* CHLDirectionsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CHLDirectionsViewController.xib; sourceTree = "<group>"; };
+		8D522C70197EE76C004DE753 /* CHLCampsite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLCampsite.h; sourceTree = "<group>"; };
+		8D522C71197EE76C004DE753 /* CHLCampsite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLCampsite.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -251,6 +254,8 @@
 			children = (
 				8D522C4C197ED93C004DE753 /* CHLSearchStore.h */,
 				8D522C4D197ED93C004DE753 /* CHLSearchStore.m */,
+				8D522C70197EE76C004DE753 /* CHLCampsite.h */,
+				8D522C71197EE76C004DE753 /* CHLCampsite.m */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -358,6 +363,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D522C56197EDCBE004DE753 /* CHLMapMarker.m in Sources */,
+				8D522C72197EE76C004DE753 /* CHLCampsite.m in Sources */,
 				8D522C6E197EE43F004DE753 /* CHLDirectionsViewController.m in Sources */,
 				8D522C64197EDF28004DE753 /* CHLResultsTableViewController.m in Sources */,
 				8D522C69197EDFEA004DE753 /* CHLCampsiteViewController.m in Sources */,

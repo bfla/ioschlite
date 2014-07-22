@@ -25,6 +25,7 @@
 @property (nonatomic, copy) NSMutableArray *privateCampsites;
 @property (nonatomic, copy) NSMutableArray *privateFilteredCampsites;
 @property (nonatomic, strong) CLLocation *privateUserLocation;
+@property (nonatomic, strong) NSString *apiKey;
 
 @end
 
@@ -73,6 +74,7 @@
         _privateCampsites = [[NSMutableArray alloc] init];
         _privateFilteredCampsites = [[NSMutableArray alloc] init];
         _privateUserLocation = [[CLLocation alloc] init];
+        _apiKey = @"1af20713-4a94-4c86-b1f4-219fb22e7b1a";
     }
     return self;
 }
