@@ -7,10 +7,6 @@
 //
 
 #import "CHLSearchStore.h"
-
-@implementation CHLSearchStore
-
-#import "CHLSearchStore.h"
 #import <CoreLocation/CoreLocation.h>
 #import "AFHTTPRequestOperationManager.h"
 #import "CHLMapViewController.h"
@@ -126,11 +122,11 @@
 - (void)runTextSearch:(NSString *)input searchIsAroundUserLocation:(BOOL)isAroundUserBool
 {
     
-    NSString *searchUrl = @"http://gentle-ocean-6036.herokuapp.com/campsites/search.json"; // Store URL
+    NSString *searchUrl = @"http://lite.getcamphero.com/api/v1/searches"; // Store URL
     
     self.privateKeywords = input; // Store input from the user
     // Store the query's parameters so AFNetworking can serialize them
-    NSDictionary *searchParams = @{@"utf8":@"√", @"keywords": self.privateKeywords};
+    NSDictionary *searchParams = @{@"utf8":@"√", @"keywords": self.privateKeywords, @"api_key": self.apiKey};
     
     if (isAroundUserBool) {
         self.privateLocationName = @"You"; // Name the current location "You"
@@ -168,15 +164,15 @@
 
 #pragma mark - mapAreaSearch
 // Run a campsite search of the current map view =================================================
-- (void)mapAreaSearch:(CHMapViewController *)mapView keywords:(NSString *)input distance:(NSString *)distance;
+- (void)mapAreaSearch:(CHLMapViewController *)mapView keywords:(NSString *)input distance:(NSString *)distance;
 {
     
-    NSString *searchUrl = @"http://gentle-ocean-6036.herokuapp.com/campsites/search.json"; // Store URL
+    NSString *searchUrl = @"http://lite.getcamphero.com/api/v1/searches"; // Store URL
     
     self.privateKeywords = input; // Store input from the user
     self.privateLocationName = input; // Save a name for the current location
     // Store the query's parameters so AFNetworking can serialize them
-    NSDictionary *searchParams = @{@"utf8":@"√", @"keywords": self.privateKeywords, @"distance":distance};
+    NSDictionary *searchParams = @{@"utf8":@"√", @"keywords": self.privateKeywords, @"distance":distance, @"api_key":self.apiKey};
     
     // Make the request
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -257,14 +253,22 @@
         } else {
             // if tribeId > 0, then filter out irrelevant campsites by tribe
             for (NSDictionary *campsite in self.privateCampsites) {
+                if (self.privateTribeFilter == 1 && campsite[@"rustic"]) {
+                    [self.privateFilteredCampsites addObject:campsite];
+                } else if (self.privateTribeFilter == 2 && campsite[@"rv"]) {
+                    [self.privateFilteredCampsites addObject:campsite];
+                } else if (self.privateTribeFilter == 3 && campsite[@"backcountry"]) {
+                    [self.privateFilteredCampsites addObject:campsite];
+                }
+                
                 // For the time being, only use the primary tribe when filtering
                 //NSLog(@"Campsite tribe is of type... %@", NSStringFromClass([campsite[@"properties"][@"tribes"][0] class]));
-                if (![campsite[@"properties"][@"tribes"][0] isKindOfClass:[NSNull class]]) {
+                /*if (![campsite[@"properties"][@"tribes"][0] isKindOfClass:[NSNull class]]) {
                     NSNumber *campsiteTribe = campsite[@"properties"][@"tribes"][0]; // Should return an NSNumber
                     if ([campsiteTribe isEqual:[NSNumber numberWithInt:self.tribeFilter]]) {
                         [self.privateFilteredCampsites addObject:campsite];
                     }
-                }
+                }*/
                 //NSArray *campsiteTribes = campsite[@"properties"][@"tribes"];
                 /*for (int i=0; i < campsiteTribes.count; i++) {
                  if ([campsiteTribes[i] integerValue] == tribeId) {
@@ -295,9 +299,5 @@
         return phoneS;
     }
 }
-
-@end
-
-
 
 @end

@@ -112,10 +112,10 @@
         }
         
         //add data to the cells
-        cell.textLabel.text = self.campsites[indexPath.row][@"properties"][@"title"];
-        NSString *rawPhoneNumber = [NSString stringWithFormat:@"%@", self.campsites[indexPath.row][@"properties"][@"phone"]];
-        if (![self.campsites[indexPath.row][@"properties"][@"phone"] isKindOfClass:[NSNull class]])
+        cell.textLabel.text = self.campsites[indexPath.row][@"name"];
+        if (![self.campsites[indexPath.row][@"phone"] isKindOfClass:[NSNull class]])
         {
+            NSString *rawPhoneNumber = [NSString stringWithFormat:@"%@", self.campsites[indexPath.row][@"phone"]];
             cell.detailTextLabel.text = [[CHLSearchStore sharedStore] formatPhoneNumber:rawPhoneNumber];
         } else {
             cell.detailTextLabel.text = @"No phone";

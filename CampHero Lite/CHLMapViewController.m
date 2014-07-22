@@ -193,14 +193,15 @@
     // Now add new annotations
     for(NSDictionary *campsite in campsites) {
         CHLMapMarker *marker = [[CHLMapMarker alloc] init];
-        double markerLat = [campsite[@"geometry"][@"coordinates"][1] doubleValue];
-        double markerLng = [campsite[@"geometry"][@"coordinates"][0] doubleValue];
+        double markerLat = [campsite[@"latitude"] doubleValue];
+        double markerLng = [campsite[@"longitude"] doubleValue];
         marker.campsite = campsite;
         marker.coordinate = CLLocationCoordinate2DMake(markerLat, markerLng);
-        marker.title = campsite[@"properties"][@"title"];
-        NSString *rawPhoneNumber = campsite[@"properties"][@"phone"];
+        marker.title = campsite[@"name"];
+        NSString *rawPhoneNumber = campsite[@"phone"];
         if (![rawPhoneNumber isKindOfClass:[NSNull class]]) {
-            marker.subtitle = [[CHLSearchStore sharedStore] formatPhoneNumber:rawPhoneNumber];
+            NSString *phoneString = [campsite[@"phone"] stringValue];
+            marker.subtitle = [[CHLSearchStore sharedStore] formatPhoneNumber:phoneString];
         }
         [self.mapView addAnnotation:marker];
     }
@@ -214,9 +215,9 @@
     NSMutableArray *lngs = [[NSMutableArray alloc] init];
     for (NSDictionary *campsite in campsites) {
         [lats addObject:[NSNumber
-                         numberWithDouble:[campsite[@"geometry"][@"coordinates"][1] doubleValue]]];
+                         numberWithDouble:[campsite[@"latitude"] doubleValue]]];
         [lngs addObject:[NSNumber
-                         numberWithDouble:[campsite[@"geometry"][@"coordinates"][0] doubleValue]]];
+                         numberWithDouble:[campsite[@"longitude"] doubleValue]]];
     }
     
     // Calcualte the smallest and largest lats and lngs
@@ -334,3 +335,5 @@
     }
     
 }
+
+@end
