@@ -23,6 +23,9 @@
 		8D522C41197ED3F2004DE753 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D522C40197ED3F2004DE753 /* CoreLocation.framework */; };
 		8D522C44197ED856004DE753 /* CHLUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D522C43197ED856004DE753 /* CHLUtilities.m */; };
 		8D522C4E197ED93C004DE753 /* CHLSearchStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D522C4D197ED93C004DE753 /* CHLSearchStore.m */; };
+		8D522C52197EDA7A004DE753 /* CHLMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D522C50197EDA7A004DE753 /* CHLMapViewController.m */; };
+		8D522C53197EDA7A004DE753 /* CHLMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D522C51197EDA7A004DE753 /* CHLMapViewController.xib */; };
+		8D522C56197EDCBE004DE753 /* CHLMapMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D522C55197EDCBE004DE753 /* CHLMapMarker.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +61,11 @@
 		8D522C43197ED856004DE753 /* CHLUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLUtilities.m; sourceTree = "<group>"; };
 		8D522C4C197ED93C004DE753 /* CHLSearchStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLSearchStore.h; sourceTree = "<group>"; };
 		8D522C4D197ED93C004DE753 /* CHLSearchStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLSearchStore.m; sourceTree = "<group>"; };
+		8D522C4F197EDA7A004DE753 /* CHLMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLMapViewController.h; sourceTree = "<group>"; };
+		8D522C50197EDA7A004DE753 /* CHLMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLMapViewController.m; sourceTree = "<group>"; };
+		8D522C51197EDA7A004DE753 /* CHLMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CHLMapViewController.xib; sourceTree = "<group>"; };
+		8D522C54197EDCBD004DE753 /* CHLMapMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLMapMarker.h; sourceTree = "<group>"; };
+		8D522C55197EDCBE004DE753 /* CHLMapMarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLMapMarker.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +183,11 @@
 		8D522C46197ED8CE004DE753 /* MapScreen */ = {
 			isa = PBXGroup;
 			children = (
+				8D522C4F197EDA7A004DE753 /* CHLMapViewController.h */,
+				8D522C50197EDA7A004DE753 /* CHLMapViewController.m */,
+				8D522C51197EDA7A004DE753 /* CHLMapViewController.xib */,
+				8D522C54197EDCBD004DE753 /* CHLMapMarker.h */,
+				8D522C55197EDCBE004DE753 /* CHLMapMarker.m */,
 			);
 			name = MapScreen;
 			sourceTree = "<group>";
@@ -279,6 +292,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D522C1A197ED36E004DE753 /* InfoPlist.strings in Resources */,
+				8D522C53197EDA7A004DE753 /* CHLMapViewController.xib in Resources */,
 				8D522C22197ED36E004DE753 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -298,7 +312,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D522C56197EDCBE004DE753 /* CHLMapMarker.m in Sources */,
 				8D522C20197ED36E004DE753 /* CHLAppDelegate.m in Sources */,
+				8D522C52197EDA7A004DE753 /* CHLMapViewController.m in Sources */,
 				8D522C4E197ED93C004DE753 /* CHLSearchStore.m in Sources */,
 				8D522C1C197ED36E004DE753 /* main.m in Sources */,
 				8D522C44197ED856004DE753 /* CHLUtilities.m in Sources */,
