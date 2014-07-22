@@ -26,6 +26,10 @@
 		8D522C52197EDA7A004DE753 /* CHLMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D522C50197EDA7A004DE753 /* CHLMapViewController.m */; };
 		8D522C53197EDA7A004DE753 /* CHLMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D522C51197EDA7A004DE753 /* CHLMapViewController.xib */; };
 		8D522C56197EDCBE004DE753 /* CHLMapMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D522C55197EDCBE004DE753 /* CHLMapMarker.m */; };
+		8D522C5A197EDD32004DE753 /* CHLFilterViewControllerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D522C58197EDD32004DE753 /* CHLFilterViewControllerTableViewController.m */; };
+		8D522C5B197EDD32004DE753 /* CHLFilterViewControllerTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D522C59197EDD32004DE753 /* CHLFilterViewControllerTableViewController.xib */; };
+		8D522C5F197EDDEA004DE753 /* CHLLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D522C5D197EDDEA004DE753 /* CHLLocationViewController.m */; };
+		8D522C60197EDDEA004DE753 /* CHLLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D522C5E197EDDEA004DE753 /* CHLLocationViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +70,12 @@
 		8D522C51197EDA7A004DE753 /* CHLMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CHLMapViewController.xib; sourceTree = "<group>"; };
 		8D522C54197EDCBD004DE753 /* CHLMapMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLMapMarker.h; sourceTree = "<group>"; };
 		8D522C55197EDCBE004DE753 /* CHLMapMarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLMapMarker.m; sourceTree = "<group>"; };
+		8D522C57197EDD32004DE753 /* CHLFilterViewControllerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLFilterViewControllerTableViewController.h; sourceTree = "<group>"; };
+		8D522C58197EDD32004DE753 /* CHLFilterViewControllerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLFilterViewControllerTableViewController.m; sourceTree = "<group>"; };
+		8D522C59197EDD32004DE753 /* CHLFilterViewControllerTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CHLFilterViewControllerTableViewController.xib; sourceTree = "<group>"; };
+		8D522C5C197EDDEA004DE753 /* CHLLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLLocationViewController.h; sourceTree = "<group>"; };
+		8D522C5D197EDDEA004DE753 /* CHLLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLLocationViewController.m; sourceTree = "<group>"; };
+		8D522C5E197EDDEA004DE753 /* CHLLocationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CHLLocationViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +186,12 @@
 		8D522C45197ED8C1004DE753 /* FilterScreen */ = {
 			isa = PBXGroup;
 			children = (
+				8D522C57197EDD32004DE753 /* CHLFilterViewControllerTableViewController.h */,
+				8D522C58197EDD32004DE753 /* CHLFilterViewControllerTableViewController.m */,
+				8D522C59197EDD32004DE753 /* CHLFilterViewControllerTableViewController.xib */,
+				8D522C5C197EDDEA004DE753 /* CHLLocationViewController.h */,
+				8D522C5D197EDDEA004DE753 /* CHLLocationViewController.m */,
+				8D522C5E197EDDEA004DE753 /* CHLLocationViewController.xib */,
 			);
 			name = FilterScreen;
 			sourceTree = "<group>";
@@ -293,7 +309,9 @@
 			files = (
 				8D522C1A197ED36E004DE753 /* InfoPlist.strings in Resources */,
 				8D522C53197EDA7A004DE753 /* CHLMapViewController.xib in Resources */,
+				8D522C5B197EDD32004DE753 /* CHLFilterViewControllerTableViewController.xib in Resources */,
 				8D522C22197ED36E004DE753 /* Images.xcassets in Resources */,
+				8D522C60197EDDEA004DE753 /* CHLLocationViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,8 +332,10 @@
 			files = (
 				8D522C56197EDCBE004DE753 /* CHLMapMarker.m in Sources */,
 				8D522C20197ED36E004DE753 /* CHLAppDelegate.m in Sources */,
+				8D522C5A197EDD32004DE753 /* CHLFilterViewControllerTableViewController.m in Sources */,
 				8D522C52197EDA7A004DE753 /* CHLMapViewController.m in Sources */,
 				8D522C4E197ED93C004DE753 /* CHLSearchStore.m in Sources */,
+				8D522C5F197EDDEA004DE753 /* CHLLocationViewController.m in Sources */,
 				8D522C1C197ED36E004DE753 /* main.m in Sources */,
 				8D522C44197ED856004DE753 /* CHLUtilities.m in Sources */,
 			);
