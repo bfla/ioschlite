@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import "CHLCampsite.h"
 
 @interface CHLDirectionsViewController : UIViewController <MKMapViewDelegate>
 
 @property (nonatomic, strong) IBOutlet MKMapView *mapView; // create property to hold the MapView
-@property (nonatomic, copy) NSDictionary *campsite; // store the campsite
+@property (nonatomic, copy) CHLCampsite *campsite; // store the campsite
 
 //-(void)dismissDirections:(id)sender;
 - (void)resetMapArea;

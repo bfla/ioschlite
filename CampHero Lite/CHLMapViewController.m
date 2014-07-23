@@ -8,6 +8,7 @@
 
 #import "CHLMapViewController.h"
 #import "CHLSearchStore.h"
+#import "CHLCampsite.h"
 #import "CHLMapMarker.h"
 #import "CHLCampsiteViewController.h"
 
@@ -298,7 +299,7 @@
     // Since campsites should have the same index as markers...
     // Navigate to the campsite that has the same index as the marker
     CHLCampsiteViewController *detailVC = [[CHLCampsiteViewController alloc] init];
-    detailVC.campsite = marker.campsite;
+    detailVC.campsite = [[CHLCampsite alloc] initWithJSON:marker.campsite];
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 
@@ -312,7 +313,7 @@
         UIAlertView *noCampsitesAlert = [[UIAlertView alloc] initWithTitle:@"No campsites here!" message:@"No public campgrounds can hide from CampHero!  There probably just aren't any public campgrounds here that fit your criteria. (Private campgrounds coming soon!)" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [noCampsitesAlert show];
         self.resetLocationButton.hidden = NO;
-    } else if (self.campsites.count < 50) {
+    } else if (self.campsites.count < 100) {
         // This is the normal case.  No notices.
         self.noticeLabel.hidden = YES;
     } else {

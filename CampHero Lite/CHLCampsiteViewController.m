@@ -23,22 +23,23 @@
 @property (nonatomic, weak) IBOutlet UILabel *vibeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *subtitle;
-@property (nonatomic, weak) IBOutlet UILabel *rankLabel;
-@property (nonatomic, weak) IBOutlet UILabel *ratingLabel;
 @property (nonatomic, weak) IBOutlet UILabel *campPhoneLabel;
 @property (nonatomic, weak) IBOutlet UIButton *callCampgroundButton;
 // Map & location section
 @property (nonatomic, weak) IBOutlet UILabel *coordinateLabel;
 @property (nonatomic, weak) IBOutlet UIButton *directionsButton;
-// Bookings section
-@property (nonatomic, weak) IBOutlet UILabel *reservableLabel;
-@property (nonatomic, weak) IBOutlet UILabel *walkinLabel;
-@property (nonatomic, weak) IBOutlet UILabel *resPhoneLabel;
-@property (nonatomic, weak) IBOutlet UIButton *callToReserveButton;
-@property (nonatomic, weak) IBOutlet UIButton *resOnlineButton;
-// Highlights and tags section
-@property (nonatomic, weak) IBOutlet UILabel *highlightsHeader;
-@property (nonatomic, weak) IBOutlet UITextView *highlightsTextView;
+// Facilities
+@property (nonatomic, strong) IBOutlet UIImageView *outhouseImage;
+@property (nonatomic, strong) IBOutlet UIImageView *showerImage;
+@property (nonatomic, strong) IBOutlet UIImageView *electricImage;
+@property (nonatomic, strong) IBOutlet UIImageView *dumpImage;
+@property (nonatomic, strong) IBOutlet UIImageView *waterImage;
+
+@property (nonatomic, weak) IBOutlet UILabel *outhouseLabel;
+@property (nonatomic, weak) IBOutlet UILabel *showerLabel;
+@property (nonatomic, weak) IBOutlet UILabel *electricLabel;
+@property (nonatomic, weak) IBOutlet UILabel *waterLabel;
+@property (nonatomic, weak) IBOutlet UILabel *dumpLabel;
 
 @end
 
@@ -81,9 +82,9 @@
     
     
     // Request additional data from web API
-    NSString *campsiteURLString = [NSString stringWithFormat:@"http://gentle-ocean-6036.herokuapp.com/%@.json", self.campsite[@"properties"][@"url"] ];
-    NSLog(@"Attempging to fetch JSON from this URL: %@", campsiteURLString);
-    [self fetchData:campsiteURLString];
+    //NSString *campsiteURLString = [NSString stringWithFormat:@"http://gentle-ocean-6036.herokuapp.com/%@.json", self.campsite[@"properties"][@"url"] ];
+    //NSLog(@"Attempging to fetch JSON from this URL: %@", campsiteURLString);
+    //[self fetchData:campsiteURLString];
     
     // Set nav bar
     self.navigationController.navigationBarHidden = NO;
@@ -94,12 +95,7 @@
     self.headerImage.image = [UIImage imageNamed:@"Header"];
     //= [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Header"]];
     //[self.view addSubview:self.headerOverlay];
-    
-    // This data gets passed from the search page's JSON
-    self.nameLabel.text = self.campsite[@"properties"][@"title"];
-    NSString *latText = [NSString stringWithFormat:@"%.5f N", [self.campsite[@"geometry"][@"coordinates"][1] doubleValue]];
-    NSString *lngText = [NSString stringWithFormat:@"%.5f W", -[self.campsite[@"geometry"][@"coordinates"][0] doubleValue]];
-    self.coordinateLabel.text = [ NSString stringWithFormat:@"%@, %@", latText, lngText ];
+    [self fillBlanks];
     
 }
 
@@ -120,28 +116,66 @@
 -(void)setDefaults {
     [self.loadingIcon startAnimating];
     self.callCampgroundButton.hidden = YES;
-    self.callToReserveButton.hidden = YES;
     self.vibeLabel.hidden = YES;
     self.subtitle.hidden = YES;
-    self.rankLabel.hidden = YES;
-    self.ratingLabel.hidden = YES;
     self.campPhoneLabel.hidden = YES;
-    self.resPhoneLabel.hidden = YES;
-    self.resOnlineButton.hidden = YES;
-    self.highlightsHeader.hidden = YES;
-    self.highlightsTextView.hidden = YES;
-    //self.directionsButton.hidden = YES;
+    
+    self.showerLabel.text = @"no showers";
+    self.outhouseLabel.text = @"no toilets";
+    self.electricLabel.text = @"no electric";
+    self.waterLabel.text = @"no water hookup";
+    self.dumpLabel.text = @"no dump stn";
+}
+
+-(void)fillBlanks {
+    self.nameLabel.text = self.campsite.name;
+    self.vibeIcon.image = [UIImage imageNamed:self.campsite.imageName];
+    if (![self.campsite.vibeString isKindOfClass:[NSNull class]]) {
+        self.vibeLabel.text = self.campsite.vibeString;
+    }
+    self.subtitle.text = @"Testing subtitle";
+    NSString *latText = [NSString stringWithFormat:@"%.5f N", self.campsite.latitude];
+    NSString *lngText = [NSString stringWithFormat:@"%.5f W", -self.campsite.longitude];
+    self.coordinateLabel.text = [ NSString stringWithFormat:@"%@, %@", latText, lngText ];
+    
+    // Add phone number and call button if phone number is available...
+    if (![self.campsite.phone isKindOfClass:[NSNull class]]) {
+        self.campPhoneLabel.text = [[CHLSearchStore sharedStore] formatPhoneNumber:self.campsite.phone];
+        self.callCampgroundButton.hidden = NO;
+    }
+    
+    self.showerImage.image = [UIImage imageNamed:[self.campsite showerImageName]];
+    self.outhouseImage.image = [UIImage imageNamed:[self.campsite outhouseImageName]];
+    self.electricImage.image = [UIImage imageNamed: [self.campsite electricImageName]];
+    self.dumpImage.image = [UIImage imageNamed:[self.campsite dumpImageName]];
+    self.waterImage.image = [UIImage imageNamed:[self.campsite waterImageName]];
+    
+    if (self.campsite.showers) {
+        self.showerLabel.text = @"showers";
+    }
+    if (self.campsite.outhouse) {
+        self.outhouseLabel.text = @"outhouse";
+    }
+    if (self.campsite.electric) {
+        self.electricLabel.text = @"electricity";
+    }
+    if (self.campsite.water) {
+        self.waterLabel.text = @"water hookups";
+    }
+    if (self.campsite.dump) {
+        self.waterLabel.text = @"dump station";
+    }
 }
 
 // This function runs if the AFNetworking request returned the campsite successfully
--(void)requestSuccessful
+/*-(void)requestSuccessful
 {
     [self.loadingIcon stopAnimating]; // Hide the loading icon
     
     // Add the photo
-    /*NSURL *photoUrl = [NSURL URLWithString:self.campsiteJSON[@"photos"][0][@"url"]];
-     [self.headerImage setImageWithUrl:photoUrl placeholderImage:[UIImage imageNamed:@"Header"]];
-     NSString *photoLicense = self.campsiteJSON[@"photos"][0][@"license_text"];*/
+    //NSURL *photoUrl = [NSURL URLWithString:self.campsiteJSON[@"photos"][0][@"url"]];
+    //[self.headerImage setImageWithUrl:photoUrl placeholderImage:[UIImage imageNamed:@"Header"]];
+    //NSString *photoLicense = self.campsiteJSON[@"photos"][0][@"license_text"];
     
     // Add the organization
     NSString *org = self.campsiteJSON[@"org"];
@@ -187,13 +221,7 @@
         NSLog(@"!Tribe was not found...");
         self.vibeIcon = [ [UIImageView alloc] initWithImage:[UIImage imageNamed:@"All"] ];
     }
-    
-    // Add the rating if it is available
-    /*if (![self.campsiteJSON[@"avg_rating"] isKindOfClass:[NSNull class]]) {
-     NSLog(@"Adding rating label...");
-     self.ratingLabel.text = [NSString stringWithFormat:@"Rated %@ out of 5", self.campsiteJSON[@"avg_rating"] ];
-     self.ratingLabel.hidden = NO;
-     }*/
+ 
     
     // Add the manager's phone # if it is available
     if (![self.campsiteJSON[@"camp_phone"] isKindOfClass:[NSNull class]]) {
@@ -242,24 +270,14 @@
         self.highlightsTextView.hidden = NO;
         [self addTags:self.campsiteJSON[@"tags"]];
     }
+ 
     
-    // NOT READY YET
-    // Reserve online button appears only if res_url is available
-    /*if (![self.campsiteJSON[@"res_url"] isKindOfClass:[NSNull class]]) {
-     self.resOnlineButton.hidden = NO;
-     }*/
-    
-    // Add reviews - NOT READY YET
-    /*if ([self.campsiteJSON[@"reviews"] count] > 0) {
-     self.reviewBody.text = self.campsiteJSON[@"reviews"][0][@"body"];
-     }*/
-    
-}
+}*/
 
 // Handles failed JSON requests
--(void)requestUnsuccessful {
+//-(void)requestUnsuccessful {
     // Add local notification here
-}
+//}
 
 // Creates the mapview
 -(void)generateMap {
@@ -279,8 +297,8 @@
     
     // Set the map region defaults============================================================***
     // Create the center coordinate:
-    double centerLat = [self.campsite[@"geometry"][@"coordinates"][1] doubleValue];
-    double centerLng = [self.campsite[@"geometry"][@"coordinates"][0] doubleValue];
+    double centerLat = self.campsite.latitude;
+    double centerLng = self.campsite.longitude;
     //NSLog(@"Campsite detail map center is %f, %f", centerLat, centerLng);
     CLLocationCoordinate2D startCenter = CLLocationCoordinate2DMake(centerLat, centerLng);
     
@@ -293,68 +311,10 @@
 }
 
 // Add tags for the campground
--(void)addTags:(NSArray *)tags
-{
-    NSMutableArray *facilityTags = [[NSMutableArray alloc] init];
-    NSMutableArray *ruleTags = [[NSMutableArray alloc] init];
-    NSMutableArray *otherTags = [[NSMutableArray alloc] init];
-    NSString *highlightsText = @"";
-    NSString *spacer = @" \u2022";
-    
-    NSLog(@"Processing tags...");
-    for (NSDictionary *tag in tags) {
-        //NSLog(@"Tag category is... %@", tag[@"type"]);
-        if ([tag[@"type"] isEqualToString:@"Facilities"]) {
-            //NSLog(@"Categorizing facility tags...");
-            [facilityTags addObject:tag];
-        } else if ([tag[@"type"] isEqualToString:@"Rules"]) {
-            [ruleTags addObject:tag];
-        } else {
-            [otherTags addObject:tag];
-        }
-    }
-    
-    // Add tags of type "Facilities"
-    //NSLog(@"Adding facility tags...");
-    if (facilityTags && facilityTags.count) {
-        //NSLog(@"Creating facilityText...");
-        NSString *facilityText = @"Facilities: ";
-        for (NSDictionary *tag in facilityTags) {
-            facilityText = [facilityText stringByAppendingString:spacer];
-            facilityText = [facilityText stringByAppendingString:tag[@"name"]];
-            //NSLog(@"facilityText says... %@", facilityText);
-        }
-        highlightsText = [highlightsText stringByAppendingString:facilityText];
-        highlightsText = [highlightsText stringByAppendingString:@"\n \n"];
-    }
-    // Add tags of type "rules"
-    if (ruleTags && ruleTags.count) {
-        //NSLog(@"Creating facilityText...");
-        NSString *ruleText = @"Rules: ";
-        for (NSDictionary *tag in ruleTags) {
-            ruleText = [ruleText stringByAppendingString:spacer];
-            ruleText = [ruleText stringByAppendingString:tag[@"name"]];
-            //NSLog(@"facilityText says... %@", rulesText);
-        }
-        highlightsText = [highlightsText stringByAppendingString:ruleText];
-        highlightsText = [highlightsText stringByAppendingString:@"\n \n"];
-    }
-    // Add Tags of type "other"
-    if (otherTags && otherTags.count) {
-        //NSLog(@"Creating facilityText...");
-        NSString *otherText = @"Tags: ";
-        for (NSDictionary *tag in otherTags) {
-            otherText = [otherText stringByAppendingString:spacer];
-            otherText = [otherText stringByAppendingString:tag[@"name"]];
-            //NSLog(@"facilityText says... %@", rulesText);
-        }
-        highlightsText = [highlightsText stringByAppendingString:otherText];
-    }
-    
-    self.highlightsTextView.text = highlightsText; // Add the final text
-    self.highlightsTextView.editable = NO; // Don't let user edit the text
-    
-}
+//-(void)addTags:(NSArray *)tags
+//{
+    // Do something
+//}
 
 #pragma mark - Actions
 
@@ -376,44 +336,16 @@
     
 }
 
-// Opens a web view to visit the campsite's reservation webpage
--(IBAction)visitReservationWebsite:(id)sender {
-    // This feature doesn't work yet
-    /*if (![self.campsiteJSON[@"res_url"] isKindOfClass:[NSNull class]]) {
-     NSLog(@"Attempting to open reservation website with URL: %@", self.campsiteJSON[@"res_url"]);
-     NSURL *resURL = [NSURL URLWithString:self.campsiteJSON[@"res_url"]];
-     self.rovc = [[CHLReserveOnlineViewController alloc] init];
-     self.rovc.URL = resURL;
-     self.rovc.title = @"Reserve Online";
-     [self.navigationController pushViewController:self.rovc animated:YES];
-     }*/
-}
-
 // Requests permission to call the campground
 -(IBAction)callCampground:(id)sender {
     // Do it only if a phone number is available
     
-    if (![self.campsiteJSON[@"camp_phone"] isKindOfClass:[NSNull class]]) {
+    if (![self.campsite.phone isKindOfClass:[NSNull class]]) {
         // Check if the device can make phone calls and respond appropriately
         if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://"]]) {
             NSLog(@"Calling campground phone number...");
-            NSString *campgroundPhoneNumber = [@"telprompt://" stringByAppendingString:self.campsiteJSON[@"camp_phone"] ];
+            NSString *campgroundPhoneNumber = [@"telprompt://" stringByAppendingString:self.campsite.phone ];
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:campgroundPhoneNumber]];
-        } else {
-            [self showNoPhoneAlert];
-        }
-    }
-}
-
-// Requests permission to call the reservation hotline
--(IBAction)callToReserve:(id)sender {
-    // Do it only if a phone number is available
-    if (![self.campsiteJSON[@"res_phone"] isKindOfClass:[NSNull class]]) {
-        // Check if the device can make phone calls and respond appropriately
-        if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://"]]) {
-            NSLog(@"Calling reservation phone number");
-            NSString *reservePhoneNumber = [@"telprompt://" stringByAppendingString:self.campsiteJSON[@"res_phone"] ];
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:reservePhoneNumber]];
         } else {
             [self showNoPhoneAlert];
         }
@@ -433,30 +365,11 @@
     if (buttonIndex == 0) {
     } else {
         NSString *directionsString = [[NSString alloc]
-                                      initWithFormat:@"http://maps.apple.com/?daddr=%f,%f&saddr=%@", [self.campsite[@"geometry"][@"coordinates"][1] doubleValue], [self.campsite[@"geometry"][@"coordinates"][0] doubleValue], @"Current Location"];
+                                      initWithFormat:@"http://maps.apple.com/?daddr=%f,%f&saddr=%@", self.campsite.latitude, self.campsite.longitude, @"Current Location"];
         NSLog(@"Sending query to apple maps from NSString: %@", directionsString);
         NSURL* directionsURL = [[NSURL alloc] initWithString:[directionsString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         [[UIApplication sharedApplication] openURL:directionsURL];
     }
 }
 
-# pragma mark - Data handlers
-
-- (void)fetchData:(NSString *)campsiteUrl
-{
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager GET:campsiteUrl parameters:nil success:^(AFHTTPRequestOperation *operation, id responseJSON) {
-        NSLog(@"campsiteJSON: %@", responseJSON);
-        self.campsiteJSON = responseJSON;
-        [self requestSuccessful];
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        self.fetchFailedError = YES;
-        NSLog(@"Error with JSON Request: %@", error);
-        UIAlertView *fetchFailedAlert = [[UIAlertView alloc] initWithTitle:@"Dastardly bugs!" message:@"Bummer.  I was unable to fetch this campsite for you. Maybe you lost your internet connection or maybe my servers were exposed to some Camptonite.  If this problem persists, please contact my trusted sidekick: brian@getcamphero.com." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [fetchFailedAlert show];
-        [self requestUnsuccessful];
-    }];
-    
-}
 @end

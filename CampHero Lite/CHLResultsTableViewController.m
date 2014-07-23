@@ -9,6 +9,7 @@
 #import "CHLResultsTableViewController.h"
 #import "CHLCampsiteViewController.h"
 #import "CHLSearchStore.h"
+#import "CHLCampsite.h"
 //#import "CHLReserveOnlineViewController.h"
 //#import "CHLCampsiteMapViewController.h"
 
@@ -155,7 +156,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     self.cvc = [[CHLCampsiteViewController alloc] init];
-    self.cvc.campsite = self.campsites[indexPath.row];
+    self.cvc.campsite = [[CHLCampsite alloc ] initWithJSON:self.campsites[indexPath.row]];
     //self.cvc.rovc = [[CHLReserveOnlineViewController alloc] init];
     //self.cvc.cmvc = [[CHLCampsiteMapViewController alloc] init];
     [self.navigationController pushViewController:self.cvc animated:YES];

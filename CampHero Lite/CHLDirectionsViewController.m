@@ -106,8 +106,8 @@
 # pragma mark - Map Customization
 - (void)saveCoordinate // Saves the campsite's coordinate
 {
-    double campsiteLat = [self.campsite[@"geometry"][@"coordinates"][1] doubleValue];
-    double campsiteLng = [self.campsite[@"geometry"][@"coordinates"][0] doubleValue];
+    double campsiteLat = self.campsite.latitude;
+    double campsiteLng = self.campsite.longitude;
     self.campsiteCoordinate = CLLocationCoordinate2DMake(campsiteLat, campsiteLng);
 }
 
@@ -128,15 +128,16 @@
 
 - (void)addMarker
 {
-    CHLMapMarker *marker = [[CHLMapMarker alloc] init];
-    marker.campsite = self.campsite;
+    //CHLMapMarker *marker = [[CHLMapMarker alloc] init];
+# warning - FIX THIS
+    /*marker.campsite = self.campsite;
     marker.coordinate = self.campsiteCoordinate;
-    marker.title = self.campsite[@"properties"][@"title"];
-    NSString *rawPhoneNumber = self.campsite[@"properties"][@"phone"];
+    marker.title = self.campsite.name;
+    NSString *rawPhoneNumber = self.campsite.phone;
     if (![rawPhoneNumber isKindOfClass:[NSNull class]]) {
         marker.subtitle = [[CHLSearchStore sharedStore] formatPhoneNumber:rawPhoneNumber];
     }
-    [self.mapView addAnnotation:marker];
+    [self.mapView addAnnotation:marker];*/
     
 }
 
