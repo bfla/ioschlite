@@ -13,7 +13,7 @@
 @interface CHLDirectionsViewController : UIViewController <MKMapViewDelegate>
 
 @property (nonatomic, strong) IBOutlet MKMapView *mapView; // create property to hold the MapView
-@property (nonatomic, copy) CHLCampsite *campsite; // store the campsite
+@property (nonatomic, strong) CHLCampsite *campsite; // store the campsite
 
 //-(void)dismissDirections:(id)sender;
 - (void)resetMapArea;

@@ -50,6 +50,13 @@
         self.elevation = [ JSON[@"elevation"] intValue];
     }
     
+    if (![JSON[@"warning"] isKindOfClass:[NSNull class]] && [JSON[@"warning"] isKindOfClass:[NSString class]]) {
+        self.warning = JSON[@"warning"];
+    }
+    
+    // BOOLEANS from the API should return as NSNumbers...
+    // ... where 1 is true and 0 is false or else as <null>
+    
     // Set vibes to NO by default and YES only if they exist and are true
     self.rustic = NO;
     if (![JSON[@"rustic"] isKindOfClass:[NSNull class] ] && [JSON[@"rustic"] isEqual:@1]) {
@@ -88,7 +95,7 @@
         self.vibeString = @"Unknown type";
         self.imageName = @"All";
     }
-    
+
     self.likely_toilets = NO;
     if (![JSON[@"likely_toilets"] isKindOfClass:[NSNull class] ]) {
         self.likely_toilets = [JSON[@"likely_toilets"] boolValue];
@@ -114,7 +121,9 @@
         self.water = [JSON[@"water"] boolValue];
     }
     self.electric = NO;
-    # warning must add proper electricity info once Rails API is updated
+    if (![JSON[@"electric_sites"] isKindOfClass:[NSNull class]] && [JSON[@"electric_sites"] isEqual:@1]) {
+        self.electric = YES;
+    }
     
     return self;
 }

@@ -18,6 +18,7 @@
 @property (nonatomic, copy)NSString *owner;
 @property (nonatomic, copy)NSString *phone;
 @property (nonatomic, copy)NSString *url;
+@property (nonatomic, copy)NSString *warning;
 
 @property double latitude;
 @property double longitude;

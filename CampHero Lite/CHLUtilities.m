@@ -81,7 +81,7 @@
 {
     BOOL connectionBool = [AFNetworkReachabilityManager sharedManager].reachable;
     if (connectionBool == NO) {
-        UIAlertView *connectionAlert = [[UIAlertView alloc] initWithTitle:@"Holy interwebs!" message:@"CampHero's superpowers are fueled by the web.  I detect that you have no internet connection so I am powerless to help you. Sorry, friend." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *connectionAlert = [[UIAlertView alloc] initWithTitle:@"Holy interwebs!" message:@"CampHero's superpowers are fueled by the web.  Since your device currently appears to have no internet connection, CampHero is powerless." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [connectionAlert show];
     }
     return connectionBool;

@@ -26,5 +26,6 @@
 -(IBAction)callCampground:(id)sender;
 //-(IBAction)callToReserve:(id)sender;
 -(IBAction)getDirections:(id)sender;
+-(IBAction)visitWebsite:(id)sender;
 
 @end

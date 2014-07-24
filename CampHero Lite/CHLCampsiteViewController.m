@@ -9,8 +9,10 @@
 #import "CHLCampsiteViewController.h"
 #import "AFHTTPRequestOperationManager.h"
 #import "CHLMapMarker.h"
-#import "CHLDirectionsViewController.h"
+//#import "CHLDirectionsViewController.h"
 #import "CHLSearchStore.h"
+#import "CHLCampsite.h"
+#import "CHLUtilities.h"
 //#import "CHLReserveOnlineViewController.h"
 
 @interface CHLCampsiteViewController ()
@@ -34,12 +36,17 @@
 @property (nonatomic, strong) IBOutlet UIImageView *electricImage;
 @property (nonatomic, strong) IBOutlet UIImageView *dumpImage;
 @property (nonatomic, strong) IBOutlet UIImageView *waterImage;
-
 @property (nonatomic, weak) IBOutlet UILabel *outhouseLabel;
 @property (nonatomic, weak) IBOutlet UILabel *showerLabel;
 @property (nonatomic, weak) IBOutlet UILabel *electricLabel;
 @property (nonatomic, weak) IBOutlet UILabel *waterLabel;
 @property (nonatomic, weak) IBOutlet UILabel *dumpLabel;
+// Campground URL
+@property (nonatomic, weak) IBOutlet UILabel *urlLabel;
+@property (nonatomic, weak) IBOutlet UIButton *visitWebsiteButton;
+// Campground warnings
+@property (nonatomic, weak) IBOutlet UILabel *warningHeader;
+@property (nonatomic, weak) IBOutlet UITextView *warningTextView;
 
 @end
 
@@ -117,8 +124,12 @@
     //[self.loadingIcon startAnimating];
     self.callCampgroundButton.hidden = YES;
     //self.vibeLabel.hidden = YES;
-    self.subtitle.hidden = YES;
+    //self.subtitle.text = @"Unknown";
     //self.campPhoneLabel.hidden = YES;
+    self.urlLabel.hidden = YES;
+    self.visitWebsiteButton.hidden = YES;
+    self.warningHeader.hidden = YES;
+    self.warningTextView.hidden = YES;
     
     self.showerLabel.text = @"no showers";
     self.outhouseLabel.text = @"no toilets";
@@ -129,12 +140,12 @@
 
 -(void)fillBlanks {
     self.nameLabel.text = self.campsite.name;
-    self.vibeLabel.text = self.campsite.vibeString;
-    self.vibeLabel.text = self.campsite.owner;
     self.vibeIcon.image = [UIImage imageNamed:self.campsite.imageName];
     self.vibeLabel.text = self.campsite.vibeString;
+    if (self.campsite.owner) {
+        self.subtitle.text = self.campsite.owner;
+    }
 
-    self.subtitle.text = @"Testing subtitle";
     NSString *latText = [NSString stringWithFormat:@"%.5f N", self.campsite.latitude];
     NSString *lngText = [NSString stringWithFormat:@"%.5f W", -self.campsite.longitude];
     self.coordinateLabel.text = [ NSString stringWithFormat:@"%@, %@", latText, lngText ];
@@ -177,6 +188,18 @@
     }
     if (self.campsite.dump) {
         self.dumpLabel.text = @"dump station";
+    }
+#warning    this if statement is maybe not correct
+    if (self.campsite.url) {
+        self.urlLabel.text = self.campsite.url;
+        self.urlLabel.hidden = NO;
+        self.visitWebsiteButton.hidden = NO;
+    }
+    
+    if (self.campsite.warning) {
+        self.warningTextView.text = self.campsite.warning;
+        self.warningHeader.hidden = NO;
+        self.warningTextView.hidden = NO;
     }
 }
 
@@ -301,7 +324,7 @@
     //self.mapView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     self.mapView.scrollEnabled = NO;
     self.mapView.zoomEnabled = NO;
-    self.mapView.showsUserLocation = NO;
+    self.mapView.showsUserLocation = YES;
     self.mapView.pitchEnabled = NO;
     self.mapView.rotateEnabled = NO;
     
@@ -332,22 +355,24 @@
 #pragma mark - Actions
 
 -(IBAction)getDirections:(id)sender {
-    // Ask if user is ready to go to Apple Maps
-    //UIAlertView *appleMapsAlert = [[UIAlertView alloc] initWithTitle:@"Open Apple Maps" message:@"Directions are not one of CampHero's superpowers. Open detailed directions in Apple Maps?" delegate:self cancelButtonTitle:@"No way" otherButtonTitles:@"Heck yeah", nil];
-    //[appleMapsAlert show];
-    
     if (![CLLocationManager locationServicesEnabled] ) {
         UIAlertView *servicesDisabledAlert = [[UIAlertView alloc] initWithTitle:@"You're invisible" message:@"You have disabled location services for this device. For CampHero to find you directions to the campsite, it needs your current location. The decision is yours!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [servicesDisabledAlert show];
+    } else if (!self.mapView.userLocation.coordinate.latitude) {
+        UIAlertView *locationUnknownAlert = [[UIAlertView alloc] initWithTitle:@"I can't find you" message:@"For some reason, your device cannot identify your current location. Maybe try copying the latitude and longitude and pasting it into a map app like Apple Maps or Google Maps?" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [locationUnknownAlert show];
     } else {
-        // Present the CHLDirectionsVC as a modal and pass it the campsite
-        CHLDirectionsViewController *dvc = [[CHLDirectionsViewController alloc] init];
-        dvc.campsite = self.campsite;
-        UINavigationController *dnc = [[UINavigationController alloc] initWithRootViewController:dvc];
-        [self.navigationController presentViewController:dnc animated:YES completion:nil];
+        UIAlertView *openMapAlert = [[UIAlertView alloc] initWithTitle:@"Open Apple Maps" message:@"Directions are not one of CampHero's superpowers. Open detailed directions in Apple Maps?" delegate:self cancelButtonTitle:@"No way" otherButtonTitles:@"Heck yeah", nil];
+        [openMapAlert show];
     }
+    // Present the CHLDirectionsVC as a modal and pass it the campsite
+    //CHLDirectionsViewController *dvc = [[CHLDirectionsViewController alloc] init];
+    //dvc.campsite = self.campsite;
+    //UINavigationController *dnc = [[UINavigationController alloc] initWithRootViewController:dvc];
+    //[self.navigationController presentViewController:dnc animated:YES completion:nil];
     
 }
+
 
 // Requests permission to call the campground
 -(IBAction)callCampground:(id)sender {
@@ -365,6 +390,21 @@
     }
 }
 
+-(IBAction)visitWebsite:(id)sender {
+    if ([[CHLUtilities sharedUtilities] verifyWebConnection]) {
+        
+        if (self.campsite.url) {
+            NSURL *url = [NSURL URLWithString:[NSString stringWithString:self.campsite.url] ];
+            if ([[UIApplication sharedApplication] canOpenURL:url]) {
+                [[UIApplication sharedApplication] openURL:url];
+            } else {
+                UIAlertView *noBrowserAlert = [[UIAlertView alloc] initWithTitle:@"Denied browser access" message:@"Sorry, this device won't allow me to open this website for you.  Maybe try visiting the url in your device's browser?" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [noBrowserAlert show];
+            }
+        }
+    }
+}
+
 -(void)showNoPhoneAlert
 {
     UIAlertView *noPhoneAlert = [[UIAlertView alloc] initWithTitle:@"No phone services found" message:@"Sorry, this device doesn't appear to have phone abilities." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -372,14 +412,14 @@
 }
 
 # pragma mark - Delegation
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     // If user taps the OK or yes button, send them to Apple Maps with the directions
     if (buttonIndex == 0) {
     } else {
         NSString *directionsString = [[NSString alloc]
-                                      initWithFormat:@"http://maps.apple.com/?daddr=%f,%f&saddr=%@", self.campsite.latitude, self.campsite.longitude, @"Current Location"];
-        NSLog(@"Sending query to apple maps from NSString: %@", directionsString);
+                                      initWithFormat:@"http://maps.apple.com/?daddr=%f,%f&saddr=%f,%f", self.campsite.latitude, self.campsite.longitude, self.mapView.userLocation.coordinate.latitude, self.mapView.userLocation.coordinate.longitude];
         NSURL* directionsURL = [[NSURL alloc] initWithString:[directionsString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         [[UIApplication sharedApplication] openURL:directionsURL];
     }

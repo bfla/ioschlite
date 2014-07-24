@@ -10,6 +10,7 @@
 #import "CHLCampsiteViewController.h"
 #import "CHLMapMarker.h"
 #import "CHLSearchStore.h"
+#import "CHLCampsite.h"
 
 @interface CHLDirectionsViewController ()
 
@@ -99,7 +100,7 @@
 
 -(void)tappedDetailsButton:(id)sender
 {
-    UIAlertView *noCampsitesAlert = [[UIAlertView alloc] initWithTitle:@"Open Apple Maps" message:@"Directions are not one of CampHero's superpowers. Open detailed directions in Apple Maps? (Note: If Apple Maps doesn't load the directions, make sure Apple Maps has permission to access your Current Location and try again.)" delegate:self cancelButtonTitle:@"No way" otherButtonTitles:@"Heck yeah", nil];
+    UIAlertView *noCampsitesAlert = [[UIAlertView alloc] initWithTitle:@"Open Apple Maps" message:@"Directions are not one of CampHero's superpowers. Open detailed directions in Apple Maps?" delegate:self cancelButtonTitle:@"No way" otherButtonTitles:@"Heck yeah", nil];
     [noCampsitesAlert show];
 }
 
@@ -128,16 +129,12 @@
 
 - (void)addMarker
 {
-    //CHLMapMarker *marker = [[CHLMapMarker alloc] init];
-# warning - FIX THIS
-    /*marker.campsite = self.campsite;
+    CHLMapMarker *marker = [[CHLMapMarker alloc] init];
+    marker.campsite = self.campsite;
     marker.coordinate = self.campsiteCoordinate;
     marker.title = self.campsite.name;
-    NSString *rawPhoneNumber = self.campsite.phone;
-    if (![rawPhoneNumber isKindOfClass:[NSNull class]]) {
-        marker.subtitle = [[CHLSearchStore sharedStore] formatPhoneNumber:rawPhoneNumber];
-    }
-    [self.mapView addAnnotation:marker];*/
+    marker.subtitle = [self.campsite formattedPhoneNumber];
+    [self.mapView addAnnotation:marker];
     
 }
 
