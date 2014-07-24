@@ -113,16 +113,13 @@
         }
         
         //add data to the cells
-        cell.textLabel.text = self.campsites[indexPath.row][@"name"];
-        if (![self.campsites[indexPath.row][@"phone"] isKindOfClass:[NSNull class]])
-        {
-            NSString *rawPhoneNumber = [NSString stringWithFormat:@"%@", self.campsites[indexPath.row][@"phone"]];
-            cell.detailTextLabel.text = [[CHLSearchStore sharedStore] formatPhoneNumber:rawPhoneNumber];
-        } else {
-            cell.detailTextLabel.text = @"No phone";
-        }
+        cell.textLabel.text = [self.campsites[indexPath.row] name];
+        cell.detailTextLabel.text = [self.campsites[indexPath.row] formattedPhoneNumber];
+
+        
+        cell.imageView.image = [UIImage imageNamed: [self.campsites[indexPath.row] imageName] ];
         // Use the appropriate image for campsite type
-        if ( [self.campsites[indexPath.row][@"properties"][@"tribes"][0] isEqualToNumber:@1] ) {
+        /*if ( [self.campsites[indexPath.row][@"properties"][@"tribes"][0] isEqualToNumber:@1] ) {
             cell.imageView.image = [UIImage imageNamed:@"Rustic"];
         } else if ( [self.campsites[indexPath.row][@"properties"][@"tribes"][0] isEqualToNumber:@2] ) {
             cell.imageView.image = [UIImage imageNamed:@"RV"];
@@ -132,7 +129,7 @@
             cell.imageView.image = [UIImage imageNamed:@"Horse"];
         } else {
             cell.imageView.image = [UIImage imageNamed:@"All"];
-        }
+        }*/
         
         return cell;
         
@@ -156,7 +153,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     self.cvc = [[CHLCampsiteViewController alloc] init];
-    self.cvc.campsite = [[CHLCampsite alloc ] initWithJSON:self.campsites[indexPath.row]];
+    self.cvc.campsite = self.campsites[indexPath.row];
     //self.cvc.rovc = [[CHLReserveOnlineViewController alloc] init];
     //self.cvc.cmvc = [[CHLCampsiteMapViewController alloc] init];
     [self.navigationController pushViewController:self.cvc animated:YES];

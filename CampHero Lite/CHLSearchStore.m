@@ -7,6 +7,7 @@
 //
 
 #import "CHLSearchStore.h"
+#import "CHLCampsite.h"
 #import <CoreLocation/CoreLocation.h>
 #import "AFHTTPRequestOperationManager.h"
 #import "CHLMapViewController.h"
@@ -138,7 +139,12 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager GET:searchUrl parameters:searchParams success:^(AFHTTPRequestOperation *operation, id responseJSON) {
         NSLog(@"JSON: %@", responseJSON);
-        self.privateCampsites = responseJSON;
+        NSMutableArray *resultsAsCampsiteObjects = [[NSMutableArray alloc] init];
+        for (NSDictionary *d in responseJSON) {
+            [resultsAsCampsiteObjects addObject:[[CHLCampsite alloc] initWithJSON:d] ];
+        }
+        self.privateCampsites = resultsAsCampsiteObjects;
+        //self.privateCampsites = responseJSON;
 #pragma mark - warning must fix filter
         [self applyTribeFilter];
         
@@ -178,8 +184,12 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager GET:searchUrl parameters:searchParams success:^(AFHTTPRequestOperation *operation, id responseJSON) {
         NSLog(@"JSON: %@", responseJSON);
-        
-        self.privateCampsites = responseJSON;
+        NSMutableArray *resultsAsCampsiteObjects = [[NSMutableArray alloc] init];
+        for (NSDictionary *d in responseJSON) {
+            [resultsAsCampsiteObjects addObject:[[CHLCampsite alloc] initWithJSON:d] ];
+        }
+        self.privateCampsites = resultsAsCampsiteObjects;
+        //self.privateCampsites = responseJSON;
 #pragma mark - warning must fix filter
         //[self applyTribeFilter:self.privateTribeFilter];
         self.locationIsUser = NO; // Let the app know that the current search is not around the user
@@ -245,59 +255,25 @@
 {
     [self.privateFilteredCampsites removeAllObjects];
     
-    if (self.privateCampsites.count > 0) {
-        // If campsites were found, then it is okay to apply filters
+    if (self.privateCampsites.count > 0) { // If campsites were found, then it is okay to apply filters
+        
         if (self.privateTribeFilter == 0) {
             // If tribeId is 0, then the filter is 'all' so include all campsites
             [self.privateFilteredCampsites addObjectsFromArray:self.campsites];
         } else {
             // if tribeId > 0, then filter out irrelevant campsites by tribe
-            for (NSDictionary *campsite in self.privateCampsites) {
-                if (self.privateTribeFilter == 1 && campsite[@"rustic"]) {
+            for (CHLCampsite *campsite in self.privateCampsites) {
+                if (self.privateTribeFilter == 1 && campsite.rustic) {
                     [self.privateFilteredCampsites addObject:campsite];
-                } else if (self.privateTribeFilter == 2 && campsite[@"rv"]) {
+                } else if (self.privateTribeFilter == 2 && campsite.rv) {
                     [self.privateFilteredCampsites addObject:campsite];
-                } else if (self.privateTribeFilter == 3 && campsite[@"backcountry"]) {
+                } else if (self.privateTribeFilter == 3 && campsite.backcountry) {
                     [self.privateFilteredCampsites addObject:campsite];
                 }
-                
-                // For the time being, only use the primary tribe when filtering
-                //NSLog(@"Campsite tribe is of type... %@", NSStringFromClass([campsite[@"properties"][@"tribes"][0] class]));
-                /*if (![campsite[@"properties"][@"tribes"][0] isKindOfClass:[NSNull class]]) {
-                    NSNumber *campsiteTribe = campsite[@"properties"][@"tribes"][0]; // Should return an NSNumber
-                    if ([campsiteTribe isEqual:[NSNumber numberWithInt:self.tribeFilter]]) {
-                        [self.privateFilteredCampsites addObject:campsite];
-                    }
-                }*/
-                //NSArray *campsiteTribes = campsite[@"properties"][@"tribes"];
-                /*for (int i=0; i < campsiteTribes.count; i++) {
-                 if ([campsiteTribes[i] integerValue] == tribeId) {
-                 [self.privateFilteredCampsites addObject:campsite];
-                 }
-                 }*/
             }
         }
     }
     self.shouldResetMap = YES;
-}
-
-#pragma mark - Formatters
-- (NSMutableString *)formatPhoneNumber:(NSString *)phoneNumber
-{
-    NSMutableString *phoneS = [NSMutableString stringWithString:phoneNumber];
-    if (phoneS.length == 10) {
-        [phoneS insertString:@"-" atIndex:3];
-        [phoneS insertString:@"-" atIndex:7];
-        return phoneS;
-    } else if (phoneS.length == 11) {
-        [phoneS insertString:@"-" atIndex:1];
-        [phoneS insertString:@"-" atIndex:5];
-        [phoneS insertString:@"-" atIndex:9];
-        return phoneS;
-    } else {
-        // Do nothing
-        return phoneS;
-    }
 }
 
 @end

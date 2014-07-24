@@ -17,7 +17,7 @@
 
 @property (nonatomic, strong) IBOutlet UIView *contentView;
 // header area
-@property (nonatomic, weak) IBOutlet UIActivityIndicatorView *loadingIcon;
+//@property (nonatomic, weak) IBOutlet UIActivityIndicatorView *loadingIcon;
 @property (nonatomic, strong) IBOutlet UIImageView *headerImage;
 @property (nonatomic, strong) IBOutlet UIImageView *vibeIcon;
 @property (nonatomic, weak) IBOutlet UILabel *vibeLabel;
@@ -114,11 +114,11 @@
 
 // Sets default/blank states for IBOutlets
 -(void)setDefaults {
-    [self.loadingIcon startAnimating];
+    //[self.loadingIcon startAnimating];
     self.callCampgroundButton.hidden = YES;
-    self.vibeLabel.hidden = YES;
+    //self.vibeLabel.hidden = YES;
     self.subtitle.hidden = YES;
-    self.campPhoneLabel.hidden = YES;
+    //self.campPhoneLabel.hidden = YES;
     
     self.showerLabel.text = @"no showers";
     self.outhouseLabel.text = @"no toilets";
@@ -129,10 +129,11 @@
 
 -(void)fillBlanks {
     self.nameLabel.text = self.campsite.name;
+    self.vibeLabel.text = self.campsite.vibeString;
+    self.vibeLabel.text = self.campsite.owner;
     self.vibeIcon.image = [UIImage imageNamed:self.campsite.imageName];
-    if (![self.campsite.vibeString isKindOfClass:[NSNull class]]) {
-        self.vibeLabel.text = self.campsite.vibeString;
-    }
+    self.vibeLabel.text = self.campsite.vibeString;
+
     self.subtitle.text = @"Testing subtitle";
     NSString *latText = [NSString stringWithFormat:@"%.5f N", self.campsite.latitude];
     NSString *lngText = [NSString stringWithFormat:@"%.5f W", -self.campsite.longitude];
@@ -140,8 +141,11 @@
     
     // Add phone number and call button if phone number is available...
     if (![self.campsite.phone isKindOfClass:[NSNull class]]) {
-        self.campPhoneLabel.text = [[CHLSearchStore sharedStore] formatPhoneNumber:self.campsite.phone];
+        //self.campPhoneLabel.text = [[CHLSearchStore sharedStore] formatPhoneNumber:self.campsite.phone];
+        self.campPhoneLabel.text = [self.campsite formattedPhoneNumber];
         self.callCampgroundButton.hidden = NO;
+    } else {
+        self.campPhoneLabel.text = @"No phone";
     }
     
     self.showerImage.image = [UIImage imageNamed:[self.campsite showerImageName]];
@@ -153,9 +157,15 @@
     if (self.campsite.showers) {
         self.showerLabel.text = @"showers";
     }
-    if (self.campsite.outhouse) {
-        self.outhouseLabel.text = @"outhouse";
+    
+    if (self.campsite.no_toilets) {
+        self.outhouseLabel.text = @"no toilets";
+    } else if (self.campsite.likely_toilets) {
+        self.outhouseLabel.text = @"toilets";
+    } else {
+        self.outhouseLabel.text = @"maybe toilets";
     }
+    
     if (self.campsite.electric) {
         self.electricLabel.text = @"electricity";
     }
@@ -163,7 +173,7 @@
         self.waterLabel.text = @"water hookups";
     }
     if (self.campsite.dump) {
-        self.waterLabel.text = @"dump station";
+        self.dumpLabel.text = @"dump station";
     }
 }
 

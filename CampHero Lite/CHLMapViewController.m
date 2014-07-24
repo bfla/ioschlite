@@ -192,18 +192,20 @@
 - (void)createMarkers:(NSMutableArray *)campsites
 {
     // Now add new annotations
-    for(NSDictionary *campsite in campsites) {
+    for(CHLCampsite *campsite in campsites) {
         CHLMapMarker *marker = [[CHLMapMarker alloc] init];
-        double markerLat = [campsite[@"latitude"] doubleValue];
-        double markerLng = [campsite[@"longitude"] doubleValue];
+        double markerLat = campsite.latitude;
+        double markerLng = campsite.longitude;
         marker.campsite = campsite;
         marker.coordinate = CLLocationCoordinate2DMake(markerLat, markerLng);
-        marker.title = campsite[@"name"];
-        NSString *rawPhoneNumber = campsite[@"phone"];
-        if (![rawPhoneNumber isKindOfClass:[NSNull class]]) {
-            NSString *phoneString = [campsite[@"phone"] stringValue];
-            marker.subtitle = [[CHLSearchStore sharedStore] formatPhoneNumber:phoneString];
-        }
+        marker.title = campsite.name;
+        //NSString *rawPhoneNumber = campsite[@"phone"];
+        //if (![rawPhoneNumber isKindOfClass:[NSNull class]]) {
+            //NSString *phoneString = [campsite[@"phone"] stringValue];
+            //marker.subtitle = [[CHLSearchStore sharedStore] formatPhoneNumber:phoneString];
+        //}
+        marker.subtitle = [campsite formattedPhoneNumber];
+        
         [self.mapView addAnnotation:marker];
     }
     
@@ -214,11 +216,11 @@
     // Build arrays for campsite lats and lngs
     NSMutableArray *lats = [[NSMutableArray alloc] init];
     NSMutableArray *lngs = [[NSMutableArray alloc] init];
-    for (NSDictionary *campsite in campsites) {
+    for (CHLCampsite *campsite in campsites) {
         [lats addObject:[NSNumber
-                         numberWithDouble:[campsite[@"latitude"] doubleValue]]];
+                         numberWithDouble:campsite.latitude]];
         [lngs addObject:[NSNumber
-                         numberWithDouble:[campsite[@"longitude"] doubleValue]]];
+                         numberWithDouble:campsite.longitude]];
     }
     
     // Calcualte the smallest and largest lats and lngs
@@ -299,7 +301,7 @@
     // Since campsites should have the same index as markers...
     // Navigate to the campsite that has the same index as the marker
     CHLCampsiteViewController *detailVC = [[CHLCampsiteViewController alloc] init];
-    detailVC.campsite = [[CHLCampsite alloc] initWithJSON:marker.campsite];
+    detailVC.campsite = marker.campsite;
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 

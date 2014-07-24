@@ -21,20 +21,29 @@
 }
 
 - (instancetype)initWithJSON:(NSDictionary *)JSON {
-    
+    // API should return NSStrings for these and they are all required fields
+    // So these ones are easy...
     self.api_id = [JSON[@"id"] intValue];
     self.name = JSON[@"name"];
     self.state = JSON[@"state"];
     self.owner = JSON[@"owner"];
-
-    // Save phone as a string only if it exists
-    if (![JSON[@"phone"] isKindOfClass:[NSNull class]]) {
-        self.phone = [NSString stringWithFormat:@"%d", [ JSON[@"phone"] intValue]];
-    }
     
     // Save lat and lng as doubles
+    // API should return an NSNumber
     self.latitude = [JSON[@"latitude"] doubleValue];
     self.longitude = [JSON[@"longitude"] doubleValue];
+
+    // Save phone as a string only if it exists
+    // API should return an NSNumber only if the field is filled
+    if (![JSON[@"phone"] isKindOfClass:[NSNull class]]) {
+        self.phone = [NSString stringWithString:[JSON[@"phone"] stringValue] ];
+    }
+    
+    // Save url as string only if it exists
+    // API should return an NSNumber only if the field is filled
+    if (![JSON[@"url"] isKindOfClass:[NSNull class]] && [JSON[@"url"] isKindOfClass:[NSString class]]) {
+        self.url = [NSString stringWithString:JSON[@"url"] ];
+    }
     
     // Save elevation as a integer only if it exists
     if (![JSON[@"elevation"] isKindOfClass:[NSNull class]]) {
@@ -43,8 +52,9 @@
     
     // Set vibes to NO by default and YES only if they exist and are true
     self.rustic = NO;
-    if (![JSON[@"rustic"] isKindOfClass:[NSNull class] ]) {
-        self.rustic = [JSON[@"rustic"] boolValue];
+    if (![JSON[@"rustic"] isKindOfClass:[NSNull class] ] && [JSON[@"rustic"] isEqual:@(YES)]) {
+        //self.rustic = [JSON[@"rustic"] boolValue];
+        self.rustic = YES;
     }
     self.rv = NO;
     if (![JSON[@"rv"] isKindOfClass:[NSNull class] ]) {
@@ -56,7 +66,7 @@
     }
     self.horse = NO;
     if (![JSON[@"horse"] isKindOfClass:[NSNull class] ]) {
-        self.backcountry = [JSON[@"horse"] boolValue];
+        self.horse = [JSON[@"horse"] boolValue];
     }
     
     // Set appropriate vibe name and image based on tribe info
@@ -68,13 +78,22 @@
         self.imageName = @"Backcountry";
     } else if (self.rv) {
         self.vibeString = @"RV friendly";
-        self.imageName = @"RV friendly";
+        self.imageName = @"RV";
     } else if (self.rustic) {
         self.vibeString = @"Rustic";
         self.imageName = @"Rustic";
     } else {
-        self.vibeString = @"Vibe is unknown";
+        self.vibeString = @"Unknown type";
         self.imageName = @"All";
+    }
+    
+    self.likely_toilets = NO;
+    if (![JSON[@"likely_toilets"] isKindOfClass:[NSNull class] ]) {
+        self.likely_toilets = [JSON[@"likely_toilets"] boolValue];
+    }
+    self.no_toilets = NO;
+    if (![JSON[@"no_toilets"] isKindOfClass:[NSNull class] ]) {
+        self.no_toilets = [JSON[@"no_toilets"] boolValue];
     }
     
     //NSLog(@"Showers is set to type %@", NSStringFromClass([JSON[@"showers"] class]));
@@ -107,10 +126,12 @@
     }
 }
 -(NSString *)outhouseImageName {
-    if (self.outhouse) {
+    if (self.no_toilets) {
+        return @"NoOuthouse";
+    } else if (self.likely_toilets) {
         return @"Outhouse";
     } else {
-        return @"NoOuthouse";
+        return @"MaybeOuthouse";
     }
 }
 
@@ -138,6 +159,31 @@
         return @"NoWater";
     }
     
+}
+
+#pragma mark - Formatters
+- (NSString *)formattedPhoneNumber {
+    if (self.phone) {
+        NSMutableString *phoneS = [NSMutableString stringWithString:self.phone];
+        NSLog(@"formatted phone number: %@ & formatted version %@", self.phone, phoneS);
+        if (phoneS.length == 10) {
+            [phoneS insertString:@"-" atIndex:3];
+            [phoneS insertString:@"-" atIndex:7];
+            NSString *fp = [NSString stringWithString:phoneS];
+            return fp;
+        } else if (phoneS.length == 11) {
+            [phoneS insertString:@"-" atIndex:1];
+            [phoneS insertString:@"-" atIndex:5];
+            [phoneS insertString:@"-" atIndex:9];
+            NSString *fp = [NSString stringWithString:phoneS];
+            return fp;
+        } else {
+            return self.phone;
+        }
+    } else {
+        NSString *fp = @"No phone";
+        return fp;
+    }
 }
 
 

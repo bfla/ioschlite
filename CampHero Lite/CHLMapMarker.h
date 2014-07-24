@@ -8,12 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
+#import "CHLCampsite.h"
 
 @interface CHLMapMarker : NSObject <MKAnnotation> // Adopt MKAnnotation protocol for map markers
 
 @property (nonatomic) CLLocationCoordinate2D coordinate; // add coordinate property
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *subtitle;
-@property (nonatomic) NSDictionary *campsite;
+@property (nonatomic) CHLCampsite *campsite;
 
 @end

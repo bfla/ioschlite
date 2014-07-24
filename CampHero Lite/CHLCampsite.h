@@ -17,12 +17,15 @@
 @property (nonatomic, copy)NSString *state;
 @property (nonatomic, copy)NSString *owner;
 @property (nonatomic, copy)NSString *phone;
+@property (nonatomic, copy)NSString *url;
 
 @property double latitude;
 @property double longitude;
 
 @property BOOL electric;
 @property BOOL outhouse;
+@property BOOL likely_toilets;
+@property BOOL no_toilets;
 @property BOOL showers;
 @property BOOL dump;
 @property BOOL water;
@@ -44,5 +47,7 @@
 -(NSString *)electricImageName;
 -(NSString *)dumpImageName;
 -(NSString *)waterImageName;
+
+- (NSString *)formattedPhoneNumber;
 
 @end

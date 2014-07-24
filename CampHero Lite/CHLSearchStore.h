@@ -37,7 +37,5 @@
 - (void)searchNearUser;
 - (void)saveActiveTribeFilter:(int)activeTribeId;
 - (void)applyTribeFilter;
-// Helper methods available to external classes
-- (NSMutableString *)formatPhoneNumber:(NSString *)phoneNumber;
 
 @end

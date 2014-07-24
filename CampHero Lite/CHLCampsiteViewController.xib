@@ -16,7 +16,6 @@
                 <outlet property="electricImage" destination="bZB-hS-9KZ" id="m7N-Zi-fr9"/>
                 <outlet property="electricLabel" destination="vYi-WM-Z4R" id="13y-8Y-6ND"/>
                 <outlet property="headerImage" destination="HBq-qg-9v7" id="Fof-mp-llh"/>
-                <outlet property="loadingIcon" destination="wyN-4u-Ezs" id="0ZB-9v-dAv"/>
                 <outlet property="mapView" destination="hUb-Ev-iV3" id="jRF-OB-zVV"/>
                 <outlet property="nameLabel" destination="MNi-8t-3pk" id="gQ9-ji-4Ze"/>
                 <outlet property="outhouseImage" destination="ttk-0f-U8i" id="H9I-1x-WU5"/>
@@ -28,6 +27,7 @@
                 <outlet property="vibeLabel" destination="kMR-6D-dvF" id="2V1-RS-O0H"/>
                 <outlet property="view" destination="kHu-gA-ZoZ" id="WnQ-cb-GaA"/>
                 <outlet property="waterImage" destination="EfF-VL-sdU" id="xGV-GW-0FM"/>
+                <outlet property="waterLabel" destination="Hrr-Z5-2Jc" id="DjH-8f-6eR"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -107,11 +107,6 @@
                     <rect key="frame" x="21" y="292" width="280" height="111"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </mapView>
-                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="wyN-4u-Ezs">
-                    <rect key="frame" x="147" y="133" width="20" height="20"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="color" red="0.0" green="0.56862747670000002" blue="0.66274511810000003" alpha="1" colorSpace="deviceRGB"/>
-                </activityIndicatorView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MNi-8t-3pk">
                     <rect key="frame" x="20" y="34" width="280" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -210,7 +205,7 @@
                     <color key="textColor" red="0.0" green="0.56862747670000002" blue="0.66274511810000003" alpha="1" colorSpace="deviceRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Electricity" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hrr-Z5-2Jc">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Water" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hrr-Z5-2Jc">
                     <rect key="frame" x="20" y="760" width="73" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
