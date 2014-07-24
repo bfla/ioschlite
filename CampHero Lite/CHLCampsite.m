@@ -52,21 +52,23 @@
     
     // Set vibes to NO by default and YES only if they exist and are true
     self.rustic = NO;
-    if (![JSON[@"rustic"] isKindOfClass:[NSNull class] ] && [JSON[@"rustic"] isEqual:@(YES)]) {
+    if (![JSON[@"rustic"] isKindOfClass:[NSNull class] ] && [JSON[@"rustic"] isEqual:@1]) {
         //self.rustic = [JSON[@"rustic"] boolValue];
         self.rustic = YES;
     }
     self.rv = NO;
-    if (![JSON[@"rv"] isKindOfClass:[NSNull class] ]) {
-        self.rustic = [JSON[@"rv"] boolValue];
+    if (![JSON[@"rv"] isKindOfClass:[NSNull class]] && [JSON[@"rv"] isEqual:@1]) {
+        self.rv = YES;
     }
     self.backcountry = NO;
-    if (![JSON[@"backcountry"] isKindOfClass:[NSNull class] ]) {
-        self.backcountry = [JSON[@"backcountry"] boolValue];
+    if (![JSON[@"backcountry"] isKindOfClass:[NSNull class]] && [JSON[@"backcountry"] isEqual:@1]) {
+        //self.backcountry = [JSON[@"backcountry"] boolValue];
+        self.backcountry = YES;
     }
     self.horse = NO;
-    if (![JSON[@"horse"] isKindOfClass:[NSNull class] ]) {
-        self.horse = [JSON[@"horse"] boolValue];
+    if (![JSON[@"horse"] isKindOfClass:[NSNull class]] && [JSON[@"horse"] isEqual:@1]) {
+        //self.horse = [JSON[@"horse"] boolValue];
+        self.horse = YES;
     }
     
     // Set appropriate vibe name and image based on tribe info

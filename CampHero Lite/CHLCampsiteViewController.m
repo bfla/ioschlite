@@ -142,8 +142,11 @@
     // Add phone number and call button if phone number is available...
     if (![self.campsite.phone isKindOfClass:[NSNull class]]) {
         //self.campPhoneLabel.text = [[CHLSearchStore sharedStore] formatPhoneNumber:self.campsite.phone];
-        self.campPhoneLabel.text = [self.campsite formattedPhoneNumber];
-        self.callCampgroundButton.hidden = NO;
+        NSString *formattedPhoneNumber = [self.campsite formattedPhoneNumber];
+        self.campPhoneLabel.text = formattedPhoneNumber;
+        if (![formattedPhoneNumber isEqualToString:@"No phone"]) {
+            self.callCampgroundButton.hidden = NO;
+        }
     } else {
         self.campPhoneLabel.text = @"No phone";
     }
