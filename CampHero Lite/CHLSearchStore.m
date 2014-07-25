@@ -219,7 +219,7 @@
     [self.locationManager startUpdatingLocation];
     // If user refused to allow use of their current location, then set a default location
     if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied || ![CLLocationManager locationServicesEnabled]) {
-        NSString *defaultLocation = @"44.77794, -85.93906";
+        NSString *defaultLocation = @"47.6097, -122.3331";
         [[CHLSearchStore sharedStore] runTextSearch:defaultLocation searchIsAroundUserLocation:NO];
     }
 }

@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Restless LLC. All rights reserved.
 //
 
+#import "CHLAppDelegate.h"
 #import "CHLMapViewController.h"
 #import "CHLSearchStore.h"
 #import "CHLCampsite.h"
@@ -337,6 +338,43 @@
         self.noticeLabel.hidden = NO;
     }
     
+    // Show RateMe alert if...
+    // 1. The alert has not already been shown during this session
+    // 2. The alert has not been shown more than 3 times
+    // 3. The search resulted in campsites
+    if (!self.showedRateMeAlert) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        int rateMeCount = [defaults integerForKey:CHLShouldShowRateMePrefsKey];
+        if (rateMeCount < 3 && self.campsites.count > 0) {
+            [self showRateMeAlert];
+        }
+    }
+    
+}
+
+- (void)showRateMeAlert {
+    self.showedRateMeAlert = YES;
+    UIAlertView *rateMeAlert = [[UIAlertView alloc] initWithTitle:@"Are you willing to rate me?" message:@"CampHero can only succeed with the support of users like you.  Every rating helps CampHero stay free, add more campsites, and improve its superpowers. Will you support CampHero?  The decision is yours! (p.s. this message will only appear a few times and then you'll never see it again.)" delegate:nil cancelButtonTitle:@"Not now" otherButtonTitles:@"Okay!", nil];
+    [rateMeAlert show];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    int newCount = [defaults integerForKey:CHLShouldShowRateMePrefsKey] + 1;
+    [defaults setInteger:newCount forKey:CHLShouldShowRateMePrefsKey];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    // If user taps the OK or yes button, send them to App Store to rate the app
+    if (buttonIndex == 0) {
+    } else {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setInteger:0 forKey:CHLShouldShowRateMePrefsKey];
+        # warning   I need the correct app_id to do this...
+        NSURL *url = [NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id889639762"];
+        if ([[UIApplication sharedApplication] canOpenURL:url]) {
+            [[UIApplication sharedApplication] openURL:url];
+        }
+    }
 }
 
 @end

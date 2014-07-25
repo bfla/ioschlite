@@ -14,7 +14,15 @@
 #import "CHLResultsTableViewController.h"
 #import "CHLUtilities.h"
 
+NSString * const CHLShouldShowRateMePrefsKey = @"ShouldShowRateMe";
+
 @implementation CHLAppDelegate
+
++ (void)initialize {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *factorySettings = @{CHLShouldShowRateMePrefsKey:@0};
+    [defaults registerDefaults:factorySettings];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -35,6 +43,7 @@
     // Map screen
     CHLMapViewController *mapVC = [[CHLMapViewController alloc] init];
     mapVC.campsites = [[NSMutableArray alloc] initWithArray:self.campsites];
+    mapVC.showedRateMeAlert = NO;
     UINavigationController *mapNVC = [[UINavigationController alloc] initWithRootViewController:mapVC];
     mapNVC.tabBarItem.title = @"Map";
     mapNVC.tabBarItem.image = [UIImage imageNamed:@"mapTab"];
