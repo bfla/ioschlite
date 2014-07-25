@@ -26,12 +26,15 @@
     self.api_id = [JSON[@"id"] intValue];
     self.name = JSON[@"name"];
     self.state = JSON[@"state"];
-    self.owner = JSON[@"owner"];
     
     // Save lat and lng as doubles
     // API should return an NSNumber
     self.latitude = [JSON[@"latitude"] doubleValue];
     self.longitude = [JSON[@"longitude"] doubleValue];
+    
+    if (![JSON[@"owner"] isKindOfClass:[NSNull class]]) {
+        self.owner = JSON[@"owner"];
+    }
 
     // Save phone as a string only if it exists
     // API should return an NSNumber only if the field is filled

@@ -20,7 +20,7 @@ NSString * const CHLShouldShowRateMePrefsKey = @"ShouldShowRateMe";
 
 + (void)initialize {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *factorySettings = @{CHLShouldShowRateMePrefsKey:@0};
+    NSDictionary *factorySettings = @{CHLShouldShowRateMePrefsKey:@1};
     [defaults registerDefaults:factorySettings];
 }
 

@@ -53,8 +53,8 @@
     
     // Set the map region defaults============================================================***
     // Create the center coordinate:
-    double centerLat = [@45.126311 doubleValue];
-    double centerLng = [@-85.989304 doubleValue];
+    double centerLat = [@47.6097 doubleValue];
+    double centerLng = [@-122.3331 doubleValue];
     CLLocationCoordinate2D startCenter = CLLocationCoordinate2DMake(centerLat, centerLng);
     
     // Build a region around the center coordinate
@@ -342,10 +342,11 @@
     // 1. The alert has not already been shown during this session
     // 2. The alert has not been shown more than 3 times
     // 3. The search resulted in campsites
+    // 4. Don't show it if the user has already rated CampHero
     if (!self.showedRateMeAlert) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         int rateMeCount = [defaults integerForKey:CHLShouldShowRateMePrefsKey];
-        if (rateMeCount < 3 && self.campsites.count > 0) {
+        if (rateMeCount != 0 && rateMeCount < 4 && self.campsites.count > 0) {
             [self showRateMeAlert];
         }
     }
@@ -371,6 +372,7 @@
         [defaults setInteger:0 forKey:CHLShouldShowRateMePrefsKey];
         # warning   I need the correct app_id to do this...
         NSURL *url = [NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id889639762"];
+        #warning This App Store link doesn't work in development but maybe on a real iPhone?
         if ([[UIApplication sharedApplication] canOpenURL:url]) {
             [[UIApplication sharedApplication] openURL:url];
         }
