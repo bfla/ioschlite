@@ -328,13 +328,13 @@
     }
     // Display search errors
     if ([[CHLSearchStore sharedStore] noWifiError]) {
-        self.noticeLabel.text = @"Ruh roh! You must connect to the web.";
+        self.noticeLabel.text = @"No internet connection! You must connect to the web.";
         self.noticeLabel.hidden = NO;
     } else if ([[CHLSearchStore sharedStore] noPermissionError]) {
         self.noticeLabel.text = @"Your device won't let me access your current location.";
         self.noticeLabel.hidden = NO;
     } else if ([[CHLSearchStore sharedStore] searchFailedError]) {
-        self.noticeLabel.text = @"Something went wrong. Check your Wifi connection and try another search.";
+        self.noticeLabel.text = @"Dastardly error! Check your Wifi connection and try again.";
         self.noticeLabel.hidden = NO;
     }
     

@@ -15,6 +15,7 @@
                 <outlet property="dumpLabel" destination="mmB-hJ-PEM" id="cbW-0u-5gy"/>
                 <outlet property="electricImage" destination="bZB-hS-9KZ" id="m7N-Zi-fr9"/>
                 <outlet property="electricLabel" destination="vYi-WM-Z4R" id="13y-8Y-6ND"/>
+                <outlet property="footerImage" destination="blq-nb-qrP" id="MiI-fK-KJA"/>
                 <outlet property="headerImage" destination="HBq-qg-9v7" id="Fof-mp-llh"/>
                 <outlet property="mapView" destination="hUb-Ev-iV3" id="jRF-OB-zVV"/>
                 <outlet property="nameLabel" destination="MNi-8t-3pk" id="gQ9-ji-4Ze"/>
@@ -45,7 +46,7 @@
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </scrollView>
         <view contentMode="scaleToFill" id="W4f-Oi-S9F">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="1096"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="1115"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HBq-qg-9v7">
@@ -260,7 +261,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Mi-cK-LAW">
-                    <rect key="frame" x="24" y="968" width="267" height="79"/>
+                    <rect key="frame" x="24" y="968" width="267" height="62"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
@@ -268,6 +269,10 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                 </textView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="blq-nb-qrP">
+                    <rect key="frame" x="-1" y="1045" width="322" height="70"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <color key="tintColor" red="1" green="0.52549022440000004" blue="0.19215688110000001" alpha="1" colorSpace="deviceRGB"/>

@@ -124,7 +124,7 @@
         self.water = [JSON[@"water"] boolValue];
     }
     self.electric = NO;
-    if (![JSON[@"electric_sites"] isKindOfClass:[NSNull class]] && [JSON[@"electric_sites"] isEqual:@1]) {
+    if (![JSON[@"electricity"] isKindOfClass:[NSNull class]] && [JSON[@"electricity"] isEqual:@1]) {
         self.electric = YES;
     }
     

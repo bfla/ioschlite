@@ -161,7 +161,7 @@
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         self.searchFailedError = YES;
-        UIAlertView *fetchFailedAlert = [[UIAlertView alloc] initWithTitle:@"Dastardly bugs!" message:@"Bummer.  I was unable to fetch this campsite for you. Maybe you lost your internet connection or maybe my servers were exposed to some Camptonite.  If this problem persists, please contact my trusted sidekick: brian@getcamphero.com." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *fetchFailedAlert = [[UIAlertView alloc] initWithTitle:@"Wifi villiany!" message:@"I was unable to fetch this campsite for you. Maybe you have a bad internet connection or maybe my servers were exposed to some Camptonite.  If this problem persists, please contact my trusty sidekick: brian@getcamphero.com." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [fetchFailedAlert show];
         NSLog(@"Error: %@", error);
     }];

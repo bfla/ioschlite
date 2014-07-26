@@ -22,6 +22,7 @@
 //@property (nonatomic, weak) IBOutlet UIActivityIndicatorView *loadingIcon;
 @property (nonatomic, strong) IBOutlet UIImageView *headerImage;
 @property (nonatomic, strong) IBOutlet UIImageView *vibeIcon;
+@property (nonatomic, strong) IBOutlet UIImageView *footerImage;
 @property (nonatomic, weak) IBOutlet UILabel *vibeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *subtitle;
@@ -30,6 +31,7 @@
 // Map & location section
 @property (nonatomic, weak) IBOutlet UILabel *coordinateLabel;
 @property (nonatomic, weak) IBOutlet UIButton *directionsButton;
+@property (nonatomic, weak) IBOutlet UILabel *elevationLabel;
 // Facilities
 @property (nonatomic, strong) IBOutlet UIImageView *outhouseImage;
 @property (nonatomic, strong) IBOutlet UIImageView *showerImage;
@@ -100,6 +102,7 @@
     
     // Add content
     self.headerImage.image = [UIImage imageNamed:@"Header"];
+    self.footerImage.image = [UIImage imageNamed:@"Footer"];
     //= [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Header"]];
     //[self.view addSubview:self.headerOverlay];
     [self fillBlanks];
@@ -126,6 +129,7 @@
     //self.vibeLabel.hidden = YES;
     //self.subtitle.text = @"Unknown";
     //self.campPhoneLabel.hidden = YES;
+    self.elevationLabel.hidden = YES;
     self.urlLabel.hidden = YES;
     self.visitWebsiteButton.hidden = YES;
     self.warningHeader.hidden = YES;
@@ -144,6 +148,9 @@
     self.vibeLabel.text = self.campsite.vibeString;
     if (self.campsite.owner) {
         self.subtitle.text = self.campsite.owner;
+    }
+    if (self.campsite.elevation) {
+        self.elevationLabel.text = [NSString stringWithFormat:@"%d", self.campsite.elevation];
     }
 
     NSString *latText = [NSString stringWithFormat:@"%.5f N", self.campsite.latitude];
@@ -189,7 +196,7 @@
     if (self.campsite.dump) {
         self.dumpLabel.text = @"dump station";
     }
-#warning    this if statement is maybe not correct
+
     if (self.campsite.url) {
         self.urlLabel.text = self.campsite.url;
         self.urlLabel.hidden = NO;
@@ -203,117 +210,7 @@
     }
 }
 
-// This function runs if the AFNetworking request returned the campsite successfully
-/*-(void)requestSuccessful
-{
-    [self.loadingIcon stopAnimating]; // Hide the loading icon
-    
-    // Add the photo
-    //NSURL *photoUrl = [NSURL URLWithString:self.campsiteJSON[@"photos"][0][@"url"]];
-    //[self.headerImage setImageWithUrl:photoUrl placeholderImage:[UIImage imageNamed:@"Header"]];
-    //NSString *photoLicense = self.campsiteJSON[@"photos"][0][@"license_text"];
-    
-    // Add the organization
-    NSString *org = self.campsiteJSON[@"org"];
-    self.subtitle.text = [[NSString alloc] initWithFormat:@"%@ campground", org];
-    self.subtitle.hidden = NO;
-    
-    
-    // Add the ranking
-    // This isn't ready yet
-    if (![self.campsiteJSON[@"city_rank"] isKindOfClass:[NSNull class]]) {
-        NSLog(@"City rank exists.  Type is... %@", NSStringFromClass([self.campsiteJSON[@"city_rank"] class]));
-        NSString *rankAsString = [self.campsiteJSON[@"city_rank"] stringValue];
-        //NSLog(@"rankAsString is... %@", rankAsString);
-        NSString *cityCount = self.campsiteJSON[@"city_count"];
-        NSString *cityName = self.campsiteJSON[@"city"][@"name"];
-        NSString *stateName = self.campsiteJSON[@"state"][@"abbreviation"];
-        self.rankLabel.text = [[NSString alloc] initWithFormat:@"Ranked %@ of %@ campsites in %@, %@", rankAsString, cityCount, cityName, stateName];
-        self.rankLabel.hidden = NO;
-    }
-    
-    // Add the campsite vibe/style
-    if (![self.campsiteJSON[@"tribes"] isKindOfClass:[NSNull class]]) { // If the campsiteJSON has a tribe attached...
-        NSLog(@"Tribe exists.  Type is... %@", NSStringFromClass([self.campsiteJSON[@"tribes"][0][@"id"] class]));
-        // Set the label for the vibe
-        self.vibeLabel.text = self.campsiteJSON[@"tribes"][0][@"vibe"];
-        self.vibeLabel.hidden = NO;
-        
-        // Use the appropriate image
-        if ( [self.campsiteJSON[@"tribes"][0][@"id"] isEqualToNumber:@1] ) {
-            self.vibeIcon.image = [UIImage imageNamed:@"Rustic"];
-            //NSLog(@"This tribe's icon should be... %@", self.campsiteJSON[@"tribes"][0][@"vibe"]);
-        } else if ( [self.campsiteJSON[@"tribes"][0][@"id"] isEqualToNumber:@2] ) {
-            self.vibeIcon.image = [UIImage imageNamed:@"RV"];
-        } else if ([self.campsiteJSON[@"tribes"][0][@"id"] isEqualToNumber:@3]) {
-            self.vibeIcon.image = [UIImage imageNamed:@"Backcountry"];
-        } else if ([self.campsiteJSON[@"tribes"][0][@"id"] isEqualToNumber:@5]) {
-            self.vibeIcon.image = [UIImage imageNamed:@"Horse"];
-        } else {
-            self.vibeIcon.image = [UIImage imageNamed:@"All"];
-        }
-        
-    } else { // If no tribe was fetched, use default icon and text
-        NSLog(@"!Tribe was not found...");
-        self.vibeIcon = [ [UIImageView alloc] initWithImage:[UIImage imageNamed:@"All"] ];
-    }
- 
-    
-    // Add the manager's phone # if it is available
-    if (![self.campsiteJSON[@"camp_phone"] isKindOfClass:[NSNull class]]) {
-        NSLog(@"Adding camp phone number...");
-        if ([self.campsiteJSON[@"camp_phone"] isKindOfClass:[NSString class]]) {
-            self.campPhoneLabel.text = [[CHLSearchStore sharedStore]
-                                        formatPhoneNumber:[NSString stringWithFormat:@"%@", self.campsiteJSON[@"camp_phone"] ]];
-            self.campPhoneLabel.hidden = NO;
-            self.callCampgroundButton.hidden = NO;
-        }
-        
-    }
-    
-    // Add booking information
-    // Takes reservations or not?
-    //NSLog(@"Reservable is of type %@", NSStringFromClass([self.campsiteJSON[@"reservable"] class]));
-    if ([self.campsiteJSON[@"reservable"] isEqual:@(YES)]) { // is failing to test properly
-        NSLog(@"Adding reservable (true) label...");
-        self.reservableLabel.text = @"Takes reservations";
-    } else {
-        NSLog(@"Adding reservable (false) label...");
-        self.reservableLabel.text = @"Doesn't take reservations";
-    }
-    // First-come first-serve camping: Allowed or not?
-    if ([self.campsiteJSON[@"walkin"] isEqual:@(YES)]) { // !Is failing to test properly
-        NSLog(@"Adding walkin (true) label...");
-        self.walkinLabel.text = @"No reservation is required";
-    } else {
-        self.walkinLabel.text = @"Reservation is required";
-        NSLog(@"Adding walkin (false) label...");
-    }
-    // Reservation phone number if it is available
-    if (![self.campsiteJSON[@"res_phone"] isKindOfClass:[NSNull class]]) {
-        NSLog(@"Adding res_phone... Type is... %@", NSStringFromClass([self.campsiteJSON[@"res_phone"]class]));
-        if ([self.campsiteJSON[@"res_phone"] isKindOfClass:[NSString class]]) {
-            self.resPhoneLabel.text = [[CHLSearchStore sharedStore]
-                                       formatPhoneNumber:[NSString stringWithFormat:@"%@", self.campsiteJSON[@"res_phone"] ]];
-            self.resPhoneLabel.hidden = NO;
-            self.callToReserveButton.hidden = NO;
-        }
-    }
-    
-    // Add highlights and tags, if there are any
-    if (self.campsiteJSON[@"tags"] && [self.campsiteJSON[@"tags"] count] ) {
-        self.highlightsHeader.hidden = NO;
-        self.highlightsTextView.hidden = NO;
-        [self addTags:self.campsiteJSON[@"tags"]];
-    }
- 
-    
-}*/
 
-// Handles failed JSON requests
-//-(void)requestUnsuccessful {
-    // Add local notification here
-//}
 
 // Creates the mapview
 -(void)generateMap {
@@ -345,12 +242,6 @@
     // Set the mapView around the region
     [self.mapView setRegion:startRegion animated:YES];
 }
-
-// Add tags for the campground
-//-(void)addTags:(NSArray *)tags
-//{
-    // Do something
-//}
 
 #pragma mark - Actions
 
