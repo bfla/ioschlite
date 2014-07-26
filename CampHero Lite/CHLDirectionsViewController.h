@@ -3,7 +3,7 @@
 //  CampHero Lite
 //
 //  Created by Brian Flaherty on 7/22/14.
-//  Copyright (c) 2014 Restless LLC. All rights reserved.
+//  Copyright (c) 2014 CampHero LLC. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

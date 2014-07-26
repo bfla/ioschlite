@@ -314,7 +314,7 @@
 			attributes = {
 				CLASSPREFIX = CHL;
 				LastUpgradeCheck = 0510;
-				ORGANIZATIONNAME = "Restless LLC";
+				ORGANIZATIONNAME = "CampHero LLC";
 				TargetAttributes = {
 					8D522C0B197ED36D004DE753 = {
 						DevelopmentTeam = J8U5T7B77F;
