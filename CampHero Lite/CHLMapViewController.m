@@ -316,15 +316,17 @@
         UIAlertView *noCampsitesAlert = [[UIAlertView alloc] initWithTitle:@"No campsites here!" message:@"No public campgrounds can hide from CampHero!  There probably just aren't any public campgrounds here that fit your criteria. (Private campgrounds coming soon!)" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [noCampsitesAlert show];
         self.resetLocationButton.hidden = NO;
-    } else if (self.campsites.count < 100) {
+    } else if (self.campsites.count < 200) {
         // This is the normal case.  No notices.
         self.noticeLabel.hidden = YES;
     } else {
         // Maximum number of campsites was reached. Display notice.
         //self.noticeLabel.text = @"Zoom in farther to see more campsites";
         //self.noticeLabel.hidden = NO;
-        UIAlertView *maxReachedAlert = [[UIAlertView alloc] initWithTitle:@"Wowza, too many campsites!" message:@"I found so many campsites that I can't show them all.  Zoom in further and search the area to find more campsites." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [maxReachedAlert show];
+        //UIAlertView *maxReachedAlert = [[UIAlertView alloc] initWithTitle:@"Wowza, too many campsites!" message:@"I found so many campsites that I can't show them all.  Narrow your search to find more campsites." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        //[maxReachedAlert show];
+        self.noticeLabel.text = @"Showing 200. Narrow your search to see more.";
+        self.noticeLabel.hidden = NO;
     }
     // Display search errors
     if ([[CHLSearchStore sharedStore] noWifiError]) {
@@ -372,10 +374,8 @@
         [defaults setInteger:0 forKey:CHLShouldShowRateMePrefsKey];
         # warning   I need the correct app_id to do this...
         NSURL *url = [NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id889639762"];
-        #warning This App Store link doesn't work in development but maybe on a real iPhone?
-        if ([[UIApplication sharedApplication] canOpenURL:url]) {
-            [[UIApplication sharedApplication] openURL:url];
-        }
+        # warning make sure this works!
+        [[UIApplication sharedApplication] openURL:url];
     }
 }
 
