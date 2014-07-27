@@ -13,6 +13,7 @@
 -(void)monitorWebConnection;
 -(void)stopMonitoringWebConnection;
 -(BOOL)verifyWebConnection;
+-(BOOL)hasWebConnection;
 
 + (instancetype)sharedUtilities;
 

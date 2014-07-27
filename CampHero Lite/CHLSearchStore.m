@@ -7,6 +7,7 @@
 //
 
 #import "CHLSearchStore.h"
+#import "CHLUtilities.h"
 #import "CHLCampsite.h"
 #import <CoreLocation/CoreLocation.h>
 #import "AFHTTPRequestOperationManager.h"
@@ -161,9 +162,11 @@
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         self.searchFailedError = YES;
-        UIAlertView *fetchFailedAlert = [[UIAlertView alloc] initWithTitle:@"Wifi villiany!" message:@"I was unable to fetch this campsite for you. Maybe you have a bad internet connection or maybe my servers were exposed to some Camptonite.  If this problem persists, please contact my trusty sidekick: brian@getcamphero.com." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [fetchFailedAlert show];
-        NSLog(@"Error: %@", error);
+        if ([[CHLUtilities sharedUtilities] verifyWebConnection]) {
+            UIAlertView *fetchFailedAlert = [[UIAlertView alloc] initWithTitle:@"Request thwarted!" message:@"I was unable to complete your request. Maybe your Wifi is malfunctioning or my servers were exposed to some Camptonite.  If this problem persists, please contact my trusty sidekick: brian@getcamphero.com." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [fetchFailedAlert show];
+            NSLog(@"Error: %@", error);
+        }
     }];
     
 }

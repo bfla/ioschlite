@@ -7,6 +7,7 @@
 //
 
 #import "CHLAppDelegate.h"
+#import "CHLUtilities.h"
 #import "CHLMapViewController.h"
 #import "CHLSearchStore.h"
 #import "CHLCampsite.h"
@@ -137,32 +138,38 @@
     // Hide the notice label (until another method tells it to become visible)
     self.noticeLabel.hidden = YES;
     
-    // Calculate which area we should search around
-    CLLocationCoordinate2D mapCenter = self.mapView.centerCoordinate;
+    if ([[CHLUtilities sharedUtilities] hasWebConnection]) {
+        
+        // Calculate which area we should search around
+        CLLocationCoordinate2D mapCenter = self.mapView.centerCoordinate;
     
-    // Prepare the search query's keywords
-    NSString *keywords = [NSString stringWithFormat:@"%f, %f", mapCenter.latitude, mapCenter.longitude];
+        // Prepare the search query's keywords
+        NSString *keywords = [NSString stringWithFormat:@"%f, %f", mapCenter.latitude, mapCenter.longitude];
     
-    // Add distance parameter for search query
-    // First get the map center
-    CLLocation *mapCenterLoc = [[CLLocation alloc]
+        // Add distance parameter for search query
+        // First get the map center
+        CLLocation *mapCenterLoc = [[CLLocation alloc]
                                 initWithLatitude:self.mapView.centerCoordinate.latitude
                                 longitude:self.mapView.centerCoordinate.longitude];
-    // Now measure the distance to the top right corner. This is a double.
-    CLLocationDegrees mapWidthInDegrees = self.mapView.region.span.latitudeDelta;
-    CLLocationDegrees mapHeightInDegrees = self.mapView.region.span.longitudeDelta;
-    CLLocation *measuringLoc = [[CLLocation alloc]
+        // Now measure the distance to the top right corner. This is a double.
+        CLLocationDegrees mapWidthInDegrees = self.mapView.region.span.latitudeDelta;
+        CLLocationDegrees mapHeightInDegrees = self.mapView.region.span.longitudeDelta;
+        CLLocation *measuringLoc = [[CLLocation alloc]
                                 initWithLatitude:(self.mapView.centerCoordinate.latitude + mapWidthInDegrees/2)
                                 longitude:(self.mapView.centerCoordinate.longitude + mapHeightInDegrees/2)];
     
-    // Calculate the distance & save it
-    CLLocationDistance distanceDoubleInMeters = [mapCenterLoc distanceFromLocation:measuringLoc];
-    double distanceInMiles = (distanceDoubleInMeters / 1000) * .621371;
-    NSString *distanceString = [[NSString alloc] initWithFormat:@"%f", distanceInMiles ];
-    NSLog(@"Distance: %@", distanceString);
+        // Calculate the distance & save it
+        CLLocationDistance distanceDoubleInMeters = [mapCenterLoc distanceFromLocation:measuringLoc];
+        double distanceInMiles = (distanceDoubleInMeters / 1000) * .621371;
+        NSString *distanceString = [[NSString alloc] initWithFormat:@"%f", distanceInMiles ];
+        NSLog(@"Distance: %@", distanceString);
     
-    // Send the search to CHLSearchStore using the areaSearch method
-    [[CHLSearchStore sharedStore] mapAreaSearch:self keywords:keywords distance:distanceString];
+        // Send the search to CHLSearchStore using the areaSearch method
+        [[CHLSearchStore sharedStore] mapAreaSearch:self keywords:keywords distance:distanceString];
+    } else {
+        self.noticeLabel.text = @"Wifi villiany! Check your internet connection";
+        self.noticeLabel.hidden = NO;
+    }
     
 }
 
@@ -309,7 +316,7 @@
 #pragma mark - Notifications
 - (void)addNotices
 {
-    if (self.campsites.count == 0) {
+    if (self.campsites.count == 0 && [[CHLUtilities sharedUtilities] hasWebConnection]) {
         // No campsites returned.  Display "no results" notice.
         //self.noticeLabel.text = @"Bummer. No campsites here";
         //self.noticeLabel.hidden = NO;
@@ -330,13 +337,16 @@
     }
     // Display search errors
     if ([[CHLSearchStore sharedStore] noWifiError]) {
-        self.noticeLabel.text = @"No internet connection! You must connect to the web.";
+        self.noticeLabel.text = @"No internet connection! Check your Wifi.";
         self.noticeLabel.hidden = NO;
     } else if ([[CHLSearchStore sharedStore] noPermissionError]) {
         self.noticeLabel.text = @"Your device won't let me access your current location.";
         self.noticeLabel.hidden = NO;
+    } else if (![[CHLUtilities sharedUtilities] hasWebConnection]) {
+        self.noticeLabel.text = @"Wifi villiany! Check your internet connection";
+        self.noticeLabel.hidden = NO;
     } else if ([[CHLSearchStore sharedStore] searchFailedError]) {
-        self.noticeLabel.text = @"Dastardly error! Check your Wifi connection and try again.";
+        self.noticeLabel.text = @"Unknown error. Check your Wifi. Try again.";
         self.noticeLabel.hidden = NO;
     }
     

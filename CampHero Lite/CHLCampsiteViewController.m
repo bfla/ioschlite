@@ -150,7 +150,7 @@
         self.subtitle.text = self.campsite.owner;
     }
     if (self.campsite.elevation) {
-        self.elevationLabel.text = [NSString stringWithFormat:@"%d", self.campsite.elevation];
+        self.elevationLabel.text = [NSString stringWithFormat:@"Elevation: %d", self.campsite.elevation];
     }
 
     NSString *latText = [NSString stringWithFormat:@"%.5f N", self.campsite.latitude];

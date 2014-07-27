@@ -15,6 +15,7 @@
                 <outlet property="dumpLabel" destination="mmB-hJ-PEM" id="cbW-0u-5gy"/>
                 <outlet property="electricImage" destination="bZB-hS-9KZ" id="m7N-Zi-fr9"/>
                 <outlet property="electricLabel" destination="vYi-WM-Z4R" id="13y-8Y-6ND"/>
+                <outlet property="elevationLabel" destination="AMY-TI-nGc" id="J8k-2V-Wh8"/>
                 <outlet property="footerImage" destination="blq-nb-qrP" id="MiI-fK-KJA"/>
                 <outlet property="headerImage" destination="HBq-qg-9v7" id="Fof-mp-llh"/>
                 <outlet property="mapView" destination="hUb-Ev-iV3" id="jRF-OB-zVV"/>
@@ -274,10 +275,17 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Made by campers in Michigan" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i4Z-n5-4Y9">
-                    <rect key="frame" x="46" y="1086" width="232" height="21"/>
+                    <rect key="frame" x="18" y="1088" width="283" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Elevation: yatta'" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AMY-TI-nGc">
+                    <rect key="frame" x="19" y="405" width="280" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
