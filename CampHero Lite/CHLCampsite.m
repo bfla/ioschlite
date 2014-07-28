@@ -50,7 +50,7 @@
     
     // Save elevation as a integer only if it exists
     if (![JSON[@"elevation"] isKindOfClass:[NSNull class]]) {
-        self.elevation = [ JSON[@"elevation"] intValue];
+        self.elevation = [NSNumber numberWithInt:[JSON[@"elevation"] intValue]];
     }
     
     if (![JSON[@"warning"] isKindOfClass:[NSNull class]] && [JSON[@"warning"] isKindOfClass:[NSString class]]) {

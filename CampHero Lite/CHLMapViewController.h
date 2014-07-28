@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 
-@interface CHLMapViewController : UIViewController <MKMapViewDelegate, UIAlertViewDelegate> // adopt MapKit Protocol
+@interface CHLMapViewController : UIViewController <MKMapViewDelegate>
 
 @property (nonatomic, strong) IBOutlet MKMapView *mapView; // create property to hold the MapView
 // Add property to hold campsites for the map markers etc***

@@ -54,8 +54,8 @@
     
     // Set the map region defaults============================================================***
     // Create the center coordinate:
-    double centerLat = [@47.6097 doubleValue];
-    double centerLng = [@-122.3331 doubleValue];
+    double centerLat = [@42.3314 doubleValue];
+    double centerLng = [@-83.0458 doubleValue];
     CLLocationCoordinate2D startCenter = CLLocationCoordinate2DMake(centerLat, centerLng);
     
     // Build a region around the center coordinate
@@ -167,8 +167,7 @@
         // Send the search to CHLSearchStore using the areaSearch method
         [[CHLSearchStore sharedStore] mapAreaSearch:self keywords:keywords distance:distanceString];
     } else {
-        self.noticeLabel.text = @"Wifi villiany! Check your internet connection";
-        self.noticeLabel.hidden = NO;
+        [[CHLUtilities sharedUtilities] showNoWifiAlert];
     }
     
 }
@@ -320,18 +319,13 @@
         // No campsites returned.  Display "no results" notice.
         //self.noticeLabel.text = @"Bummer. No campsites here";
         //self.noticeLabel.hidden = NO;
-        UIAlertView *noCampsitesAlert = [[UIAlertView alloc] initWithTitle:@"No campsites here!" message:@"No public campgrounds can hide from CampHero!  There probably just aren't any public campgrounds here that fit your criteria. (Private campgrounds coming soon!)" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *noCampsitesAlert = [[UIAlertView alloc] initWithTitle:@"No campsites here!" message:@"No public campgrounds can hide from CampHero!  Maybe there just aren't any public campgrounds here that fit your criteria or maybe you didn't have a Wifi connection when you ran your last search. (Private campgrounds coming soon!)" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [noCampsitesAlert show];
         self.resetLocationButton.hidden = NO;
     } else if (self.campsites.count < 200) {
         // This is the normal case.  No notices.
         self.noticeLabel.hidden = YES;
     } else {
-        // Maximum number of campsites was reached. Display notice.
-        //self.noticeLabel.text = @"Zoom in farther to see more campsites";
-        //self.noticeLabel.hidden = NO;
-        //UIAlertView *maxReachedAlert = [[UIAlertView alloc] initWithTitle:@"Wowza, too many campsites!" message:@"I found so many campsites that I can't show them all.  Narrow your search to find more campsites." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        //[maxReachedAlert show];
         self.noticeLabel.text = @"Showing 200. Narrow your search to see more.";
         self.noticeLabel.hidden = NO;
     }
@@ -367,7 +361,8 @@
 
 - (void)showRateMeAlert {
     self.showedRateMeAlert = YES;
-    UIAlertView *rateMeAlert = [[UIAlertView alloc] initWithTitle:@"Are you willing to rate me?" message:@"CampHero can only succeed with the support of users like you.  Every rating helps CampHero stay free, add more campsites, and improve its superpowers. Will you support CampHero?  The decision is yours! (p.s. this message will only appear a few times and then you'll never see it again.)" delegate:nil cancelButtonTitle:@"Not now" otherButtonTitles:@"Okay!", nil];
+    UIAlertView *rateMeAlert = [[UIAlertView alloc] initWithTitle:@"Are you willing to rate me?" message:@"CampHero can only succeed with the support of users like you.  Every rating helps CampHero stay free, add more campsites, and improve its superpowers. Will you support CampHero?  The decision is yours! (p.s. this message will only appear a few times and then you'll never see it again.)" delegate:self cancelButtonTitle:@"Not now" otherButtonTitles:@"Okay!", nil];
+    rateMeAlert.tag = 1;
     [rateMeAlert show];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -377,15 +372,23 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    // If user taps the OK or yes button, send them to App Store to rate the app
-    if (buttonIndex == 0) {
-    } else {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setInteger:0 forKey:CHLShouldShowRateMePrefsKey];
-        # warning   I need the correct app_id to do this...
-        NSURL *url = [NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id889639762"];
-        # warning make sure this works!
-        [[UIApplication sharedApplication] openURL:url];
+    if (alertView.tag == 1) {
+        // If user taps the OK or yes button, send them to App Store to rate the app
+        if (buttonIndex == [alertView cancelButtonIndex]) {
+            NSLog(@"Opted not to rate the app");
+        } else {
+            NSLog(@"Tapped button to rate the app");
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setInteger:0 forKey:CHLShouldShowRateMePrefsKey];
+            NSLog(@"Saved CHLShouldShowRateMePrefsKey to remember that user already rated the app");
+            NSURL *url = [NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id903533893"];
+            if ( [[UIApplication sharedApplication] canOpenURL:url]) {
+                NSLog(@"Opening the app store url...");
+                [[UIApplication sharedApplication] openURL:url];
+            } else {
+                NSLog(@"This device cannot open the app store url");
+            }
+        }
     }
 }
 

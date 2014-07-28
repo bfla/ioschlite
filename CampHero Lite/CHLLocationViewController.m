@@ -9,6 +9,7 @@
 #import "CHLLocationViewController.h"
 #import <CoreLocation/CoreLocation.h>
 #import "CHLSearchStore.h"
+#import "CHLUtilities.h"
 #import "AFHTTPRequestOperationManager.h"
 
 @interface CHLLocationViewController () <UISearchBarDelegate>
@@ -66,21 +67,29 @@
 // When the user taps "Search" on the keyboard...
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    NSString *input = searchBar.text; // Grab the user input from the field
-    // Execute the search
-    [[CHLSearchStore sharedStore] runTextSearch:input searchIsAroundUserLocation:NO];
+    if (![[CHLUtilities sharedUtilities] hasWebConnection]) {
+        [[CHLUtilities sharedUtilities] showNoWifiAlert];
+    } else {
+        NSString *input = searchBar.text; // Grab the user input from the field
+        // Execute the search
+        [[CHLSearchStore sharedStore] runTextSearch:input searchIsAroundUserLocation:NO];
     
-    searchBar.text = @""; // Clear the text the user entered
-    [searchBar resignFirstResponder]; // Close the keyboard
-    [self.navigationController popViewControllerAnimated:YES]; // Pop this VC off the NVC stack
+        searchBar.text = @""; // Clear the text the user entered
+        [searchBar resignFirstResponder]; // Close the keyboard
+        [self.navigationController popViewControllerAnimated:YES]; // Pop this VC off the NVC stack
+    }
     
 }
 
 // When the user taps the "Current location" button...
 - (IBAction)tappedUseCurrentLocButton:(id)sender
 {
-    [[CHLSearchStore sharedStore] searchNearUser]; // Run the search
-    [self.navigationController popViewControllerAnimated:YES]; // Pop this VC off the NVC stack
+    if (![[CHLUtilities sharedUtilities] hasWebConnection]) {
+        [[CHLUtilities sharedUtilities] showNoWifiAlert];
+    } else {
+        [[CHLSearchStore sharedStore] searchNearUser]; // Run the search
+        [self.navigationController popViewControllerAnimated:YES]; // Pop this VC off the NVC stack
+    }
 }
 
 @end

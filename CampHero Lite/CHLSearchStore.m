@@ -125,6 +125,7 @@
 {
     
     NSString *searchUrl = @"http://lite.getcamphero.com/api/v1/searches"; // Store URL
+    self.searchFailedError = NO;
     
     self.privateKeywords = input; // Store input from the user
     // Store the query's parameters so AFNetworking can serialize them
@@ -145,8 +146,7 @@
             [resultsAsCampsiteObjects addObject:[[CHLCampsite alloc] initWithJSON:d] ];
         }
         self.privateCampsites = resultsAsCampsiteObjects;
-        //self.privateCampsites = responseJSON;
-#pragma mark - warning must fix filter
+
         [self applyTribeFilter];
         
         if (isAroundUserBool) {
@@ -162,11 +162,14 @@
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         self.searchFailedError = YES;
-        if ([[CHLUtilities sharedUtilities] verifyWebConnection]) {
+        if ([[CHLUtilities sharedUtilities] hasWebConnection]) {
             UIAlertView *fetchFailedAlert = [[UIAlertView alloc] initWithTitle:@"Request thwarted!" message:@"I was unable to complete your request. Maybe your Wifi is malfunctioning or my servers were exposed to some Camptonite.  If this problem persists, please contact my trusty sidekick: brian@getcamphero.com." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [fetchFailedAlert show];
             NSLog(@"Error: %@", error);
-        }
+        } /*else {
+            UIAlertView *noWifiAlert = [[UIAlertView alloc] initWithTitle:@"Holy interwebs!" message:@"CampHero's superpowers flow from the internet. It appears you don't have an internet connection so CampHero is powerless right now." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [noWifiAlert show];
+        }*/
     }];
     
 }
@@ -177,6 +180,7 @@
 {
     
     NSString *searchUrl = @"http://lite.getcamphero.com/api/v1/searches"; // Store URL
+    self.searchFailedError = NO;
     
     self.privateKeywords = input; // Store input from the user
     self.privateLocationName = input; // Save a name for the current location
@@ -192,8 +196,7 @@
             [resultsAsCampsiteObjects addObject:[[CHLCampsite alloc] initWithJSON:d] ];
         }
         self.privateCampsites = resultsAsCampsiteObjects;
-        //self.privateCampsites = responseJSON;
-#pragma mark - warning must fix filter
+
         //[self applyTribeFilter:self.privateTribeFilter];
         self.locationIsUser = NO; // Let the app know that the current search is not around the user
         self.lastSearchWasTextSearch = NO;
@@ -221,8 +224,8 @@
     // Hand the query off to the delegate method startUpdatingLocation (defined below)
     [self.locationManager startUpdatingLocation];
     // If user refused to allow use of their current location, then set a default location
-    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied || ![CLLocationManager locationServicesEnabled]) {
-        NSString *defaultLocation = @"47.6097, -122.3331";
+    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied || ![CLLocationManager locationServicesEnabled] ) {
+        NSString *defaultLocation = @"Detroit MI";
         [[CHLSearchStore sharedStore] runTextSearch:defaultLocation searchIsAroundUserLocation:NO];
     }
 }
@@ -230,16 +233,19 @@
 // When a new user location is received use it to run a campsite search
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-    // Save the user's location and run a search using the Camposaurus web API
     self.privateUserLocation = [locations lastObject];
+    if ([self.privateUserLocation isKindOfClass:[NSNull class]]) {
+        NSString *defaultLocation = @"Detroit MI";
+        [[CHLSearchStore sharedStore] runTextSearch:defaultLocation searchIsAroundUserLocation:NO];
+    } else {
+        // Stop streaming the user's location
+        [self.locationManager stopUpdatingLocation];
+        //self.locationManager.delegate = nil;
     
-    // Stop streaming the user's location
-    [self.locationManager stopUpdatingLocation];
-    //self.locationManager.delegate = nil;
-    
-    // Run a text search using the retrieved user location
-    NSString *input = [NSString stringWithFormat:@"%f, %f", self.privateUserLocation.coordinate.latitude, self.privateUserLocation.coordinate.longitude];
-    [[CHLSearchStore sharedStore] runTextSearch:input searchIsAroundUserLocation:YES ];
+        // Run a text search using the retrieved user location
+        NSString *input = [NSString stringWithFormat:@"%f, %f", self.privateUserLocation.coordinate.latitude, self.privateUserLocation.coordinate.longitude];
+        [[CHLSearchStore sharedStore] runTextSearch:input searchIsAroundUserLocation:YES ];
+    }
     
     
 }

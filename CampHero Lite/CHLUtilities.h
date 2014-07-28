@@ -14,6 +14,7 @@
 -(void)stopMonitoringWebConnection;
 -(BOOL)verifyWebConnection;
 -(BOOL)hasWebConnection;
+-(void)showNoWifiAlert;
 
 + (instancetype)sharedUtilities;
 

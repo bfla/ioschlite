@@ -11,7 +11,7 @@
 @interface CHLCampsite : NSObject
 
 @property int api_id;
-@property int elevation;
+@property (nonatomic, copy) NSNumber *elevation;
 
 @property (nonatomic, copy)NSString *name;
 @property (nonatomic, copy)NSString *state;

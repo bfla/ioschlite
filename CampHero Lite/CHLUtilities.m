@@ -44,7 +44,8 @@
              case AFNetworkReachabilityStatusNotReachable:
                  NSLog(@"Wifi disconnected...");
                  // Display proper notification
-                 [ [[UIAlertView alloc] initWithTitle:@"Holy interwebs!" message:@"CampHero's superpowers are fueled by the web.  CampHero detects that you have lost your internet connection so it is powerless to help you." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                 //[ [[UIAlertView alloc] initWithTitle:@"Holy interwebs!" message:@"CampHero's superpowers are fueled by the web.  CampHero detects that you have lost your internet connection so it is powerless to help you." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                 [self showNoWifiAlert];
                  //showConnectedMessage = YES;
                  break;
              case AFNetworkReachabilityStatusReachableViaWiFi:
@@ -55,7 +56,7 @@
                   }*/
                  break;
              case AFNetworkReachabilityStatusReachableViaWWAN:
-                 //NSLog(@"3G");
+                 NSLog(@"Cell connected to carrier's Wifi network...");
                  /*if (showConnectedMessage == YES) {
                   [ [[UIAlertView alloc] initWithTitle:@"Holy interwebs!" message:@"CampHero is now connected to the internet!  CampHero's superpowers are charged and at your disposal." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
                   //showConnectedMessage = NO;
@@ -65,7 +66,7 @@
              default:
                  //NSLog(@"Unkown network status");
                  // Display proper notification
-                 [ [[UIAlertView alloc] initWithTitle:@"Holy interwebs!" message:@"CampHero's superpowers are fueled by the web.  I detect that you might not have an internet connection and if that is true, then I am powerless to help you. Sorry, friend." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                 [ [[UIAlertView alloc] initWithTitle:@"Holy interwebs!" message:@"CampHero's superpowers are fueled by the web.  I detect that you might not have an internet connection and if that is true, then I am powerless to help you." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
                  //showConnectedMessage = YES;
                  break;
          }
@@ -81,8 +82,9 @@
 {
     BOOL connectionBool = [AFNetworkReachabilityManager sharedManager].reachable;
     if (connectionBool == NO) {
-        UIAlertView *connectionAlert = [[UIAlertView alloc] initWithTitle:@"Holy interwebs!" message:@"CampHero's superpowers are fueled by the web.  It appears your device has no internet connection, so CampHero is powerless." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [connectionAlert show];
+        [self showNoWifiAlert];
+        //UIAlertView *connectionAlert = [[UIAlertView alloc] initWithTitle:@"Holy interwebs!" message:@"CampHero's superpowers are fueled by the web.  It appears your device has no internet connection, so CampHero is powerless." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        //[connectionAlert show];
     }
     return connectionBool;
 }
@@ -92,6 +94,11 @@
 {
     BOOL connectionBool = [AFNetworkReachabilityManager sharedManager].reachable;
     return connectionBool;
+}
+
+-(void)showNoWifiAlert {
+    UIAlertView *noWifiAlert = [[UIAlertView alloc] initWithTitle:@"Holy interwebs!" message:@"CampHero's superpowers are fueled by the web.  It appears your device has no internet connection, so CampHero is powerless right now." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [noWifiAlert show];
 }
 
 @end
