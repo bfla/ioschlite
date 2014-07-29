@@ -9,11 +9,9 @@
 #import "CHLCampsiteViewController.h"
 #import "AFHTTPRequestOperationManager.h"
 #import "CHLMapMarker.h"
-//#import "CHLDirectionsViewController.h"
 #import "CHLSearchStore.h"
 #import "CHLCampsite.h"
 #import "CHLUtilities.h"
-//#import "CHLReserveOnlineViewController.h"
 
 @interface CHLCampsiteViewController ()
 
@@ -89,22 +87,12 @@
     [self generateMap];
     [self setDefaults]; // Set IBOutlets to their blank states
     
-    
-    // Request additional data from web API
-    //NSString *campsiteURLString = [NSString stringWithFormat:@"http://gentle-ocean-6036.herokuapp.com/%@.json", self.campsite[@"properties"][@"url"] ];
-    //NSLog(@"Attempging to fetch JSON from this URL: %@", campsiteURLString);
-    //[self fetchData:campsiteURLString];
-    
     // Set nav bar
     self.navigationController.navigationBarHidden = NO;
-    //UINavigationItem *navItem = self.navigationItem;
-    //navItem.title = self.campsite[@"properties"][@"title"];
     
     // Add content
     self.headerImage.image = [UIImage imageNamed:@"Header"];
     self.footerImage.image = [UIImage imageNamed:@"Footer"];
-    //= [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Header"]];
-    //[self.view addSubview:self.headerOverlay];
     [self fillBlanks];
     
 }
@@ -124,11 +112,7 @@
 
 // Sets default/blank states for IBOutlets
 -(void)setDefaults {
-    //[self.loadingIcon startAnimating];
     self.callCampgroundButton.hidden = YES;
-    //self.vibeLabel.hidden = YES;
-    //self.subtitle.text = @"Unknown";
-    //self.campPhoneLabel.hidden = YES;
     self.elevationLabel.hidden = YES;
     self.urlLabel.hidden = YES;
     self.visitWebsiteButton.hidden = YES;
@@ -160,7 +144,6 @@
     
     // Add phone number and call button if phone number is available...
     if (![self.campsite.phone isKindOfClass:[NSNull class]]) {
-        //self.campPhoneLabel.text = [[CHLSearchStore sharedStore] formatPhoneNumber:self.campsite.phone];
         NSString *formattedPhoneNumber = [self.campsite formattedPhoneNumber];
         self.campPhoneLabel.text = formattedPhoneNumber;
         if (![formattedPhoneNumber isEqualToString:@"No phone"]) {
@@ -217,9 +200,7 @@
 -(void)generateMap {
     
     // Initialize the map and set properties ========================================
-    //self.mapView = [[MKMapView alloc] init];
     self.mapView.delegate = self;
-    //self.mapView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     self.mapView.scrollEnabled = NO;
     self.mapView.zoomEnabled = NO;
     self.mapView.showsUserLocation = YES;
@@ -233,7 +214,6 @@
     // Create the center coordinate:
     double centerLat = self.campsite.latitude;
     double centerLng = self.campsite.longitude;
-    //NSLog(@"Campsite detail map center is %f, %f", centerLat, centerLng);
     CLLocationCoordinate2D startCenter = CLLocationCoordinate2DMake(centerLat, centerLng);
     
     // Build a region around the center coordinate
