@@ -19,6 +19,9 @@
 @property BOOL noWifiError;
 @property BOOL noPermissionError;
 @property BOOL searchFailedError;
+
+@property double defaultLatitude;
+@property double defaultLongitude;
 // Search parameters
 @property (nonatomic, readonly) CLLocation *userLocation;
 @property (nonatomic, retain) CLLocationManager *locationManager;
@@ -32,8 +35,9 @@
 + (instancetype)sharedStore;
 - (void)mapWasReset;
 // Search functions available to external classes
-- (void)runTextSearch:(NSString *)input searchIsAroundUserLocation:(BOOL)isAroundUserLocation;
-- (void)mapAreaSearch:(CHLMapViewController *)mapView keywords:(NSString *)input distance:(NSString *)distance;
+//- (void)runTextSearch:(NSString *)input searchIsAroundUserLocation:(BOOL)isAroundUserLocation;
+- (void)searchNearLatitude:(double)latitude longitude:(double)longitude keywords:(NSString *)input searchIsAroundUserLocation:(BOOL)isAroundUserBool;
+- (void)mapAreaSearch:(CHLMapViewController *)mapView latitude:(double)latitude longitude:(double)longitude distance:(NSString *)distance;
 - (void)searchNearUser;
 - (void)saveActiveTribeFilter:(int)activeTribeId;
 - (void)applyTribeFilter;

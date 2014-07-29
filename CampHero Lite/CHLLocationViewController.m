@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 CampHero LLC. All rights reserved.
 //
 
+#import <MapKit/MapKit.h>
 #import "CHLLocationViewController.h"
 #import <CoreLocation/CoreLocation.h>
 #import "CHLSearchStore.h"
@@ -71,12 +72,25 @@
         [[CHLUtilities sharedUtilities] showNoWifiAlert];
     } else {
         NSString *input = searchBar.text; // Grab the user input from the field
-        // Execute the search
-        [[CHLSearchStore sharedStore] runTextSearch:input searchIsAroundUserLocation:NO];
-    
-        searchBar.text = @""; // Clear the text the user entered
-        [searchBar resignFirstResponder]; // Close the keyboard
-        [self.navigationController popViewControllerAnimated:YES]; // Pop this VC off the NVC stack
+        CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+        [geocoder geocodeAddressString:input completionHandler:^(NSArray *placemarks, NSError *error) {
+            if (error) {
+                UIAlertView *servicesDisabledAlert = [[UIAlertView alloc] initWithTitle:@"Geocoding error" message:@"Hmm... For some reason, Apple's geocoding API couldn't process the location you entered. Make sure you have an internet connection and entered a valid place." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [servicesDisabledAlert show];
+            } else if (placemarks.count > 0) {
+                CLPlacemark *firstPlacemark = [placemarks objectAtIndex:0];
+                double latitude = firstPlacemark.location.coordinate.latitude;
+                double longitude = firstPlacemark.location.coordinate.longitude;
+                // Execute the search
+                [[CHLSearchStore sharedStore] searchNearLatitude:latitude longitude:longitude keywords:input searchIsAroundUserLocation:NO];
+                searchBar.text = @""; // Clear the text the user entered
+                [searchBar resignFirstResponder]; // Close the keyboard
+                [self.navigationController popViewControllerAnimated:YES]; // Pop this VC off the NVC stack
+            } else {
+                UIAlertView *servicesDisabledAlert = [[UIAlertView alloc] initWithTitle:@"Geocoding error" message:@"Hmm... For some reason, Apple's geocoding API didn't recognize the location you entered. Make sure you entered a valid place..." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [servicesDisabledAlert show];
+            }
+        }];
     }
     
 }

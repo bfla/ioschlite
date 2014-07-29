@@ -144,7 +144,7 @@
         CLLocationCoordinate2D mapCenter = self.mapView.centerCoordinate;
     
         // Prepare the search query's keywords
-        NSString *keywords = [NSString stringWithFormat:@"%f, %f", mapCenter.latitude, mapCenter.longitude];
+        //NSString *keywords = [NSString stringWithFormat:@"%f, %f", mapCenter.latitude, mapCenter.longitude];
     
         // Add distance parameter for search query
         // First get the map center
@@ -165,7 +165,7 @@
         NSLog(@"Distance: %@", distanceString);
     
         // Send the search to CHLSearchStore using the areaSearch method
-        [[CHLSearchStore sharedStore] mapAreaSearch:self keywords:keywords distance:distanceString];
+        [[CHLSearchStore sharedStore] mapAreaSearch:self latitude:mapCenter.latitude longitude:mapCenter.longitude distance:distanceString];
     } else {
         [[CHLUtilities sharedUtilities] showNoWifiAlert];
     }
