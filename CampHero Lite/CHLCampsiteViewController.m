@@ -122,7 +122,7 @@
     self.showerLabel.text = @"no showers";
     self.outhouseLabel.text = @"no toilets";
     self.electricLabel.text = @"no electric";
-    self.waterLabel.text = @"no water hookup";
+    self.waterLabel.text = @"no water hkup";
     self.dumpLabel.text = @"no dump stn";
 }
 
