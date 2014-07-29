@@ -192,7 +192,7 @@
         self.electricLabel.text = @"electricity";
     }
     if (self.campsite.water) {
-        self.waterLabel.text = @"water hookups";
+        self.waterLabel.text = @"water hookup";
     }
     if (self.campsite.dump) {
         self.dumpLabel.text = @"dump station";
@@ -248,20 +248,18 @@
 
 -(IBAction)getDirections:(id)sender {
     if (![CLLocationManager locationServicesEnabled] ) {
+        // If location services are not enabled, let the user know about this problem
         UIAlertView *servicesDisabledAlert = [[UIAlertView alloc] initWithTitle:@"You're invisible" message:@"You have disabled location services for this device. For CampHero to find you directions to the campsite, it needs your current location. The decision is yours!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [servicesDisabledAlert show];
     } else if (!self.mapView.userLocation.coordinate.latitude) {
+        // If the user's current location is unknown, then let the user know about this problem
         UIAlertView *locationUnknownAlert = [[UIAlertView alloc] initWithTitle:@"I can't find you" message:@"For some reason, your device cannot identify your current location. Maybe try copying the latitude and longitude and pasting it into a map app like Apple Maps or Google Maps?" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [locationUnknownAlert show];
     } else {
+        // If everything checks out okay, then go ahead and offer to redirect to Apple Map for directions
         UIAlertView *openMapAlert = [[UIAlertView alloc] initWithTitle:@"Open Apple Maps" message:@"Directions are not one of CampHero's superpowers. Open detailed directions in Apple Maps?" delegate:self cancelButtonTitle:@"No way" otherButtonTitles:@"Heck yeah", nil];
         [openMapAlert show];
     }
-    // Present the CHLDirectionsVC as a modal and pass it the campsite
-    //CHLDirectionsViewController *dvc = [[CHLDirectionsViewController alloc] init];
-    //dvc.campsite = self.campsite;
-    //UINavigationController *dnc = [[UINavigationController alloc] initWithRootViewController:dvc];
-    //[self.navigationController presentViewController:dnc animated:YES completion:nil];
     
 }
 
@@ -284,8 +282,10 @@
 
 -(IBAction)visitWebsite:(id)sender {
     if ([[CHLUtilities sharedUtilities] verifyWebConnection]) {
-        
-        if (self.campsite.url) {
+        if (![[CHLUtilities sharedUtilities] hasWebConnection]) {
+            // Alert user if device has no active internet connection
+            [[CHLUtilities sharedUtilities] showNoWifiAlert];
+        } else if (self.campsite.url) {
             NSURL *url = [NSURL URLWithString:[NSString stringWithString:self.campsite.url] ];
             if ([[UIApplication sharedApplication] canOpenURL:url]) {
                 [[UIApplication sharedApplication] openURL:url];
