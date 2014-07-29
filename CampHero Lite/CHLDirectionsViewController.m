@@ -206,8 +206,6 @@
         NSString *directionsString = [[NSString alloc]
                                       initWithFormat:@"http://maps.apple.com/?daddr=%f,%f&saddr=%@", self.campsiteCoordinate.latitude, self.campsiteCoordinate.longitude, @"Current Location"];
         NSURL* directionsURL = [[NSURL alloc] initWithString:[directionsString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-        //NSString *directionsString = [[NSString alloc] initWithFormat:@"http://maps.apple.com/?q=%f,%f", self.campsiteCoordinate.latitude, self.campsiteCoordinate.longitude];
-        //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:directionsString]];
         [[UIApplication sharedApplication] openURL:directionsURL];
     }
 }
